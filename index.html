@@ -8,29 +8,55 @@
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; color: #333; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #008751; font-size: 22px; text-transform: uppercase; margin-bottom: 5px; }
-        h2 { text-align: center; font-size: 14px; color: #555; margin-top: 0; margin-bottom: 25px; }
-        h3 { background-color: #008751; color: white; padding: 8px; font-size: 16px; margin-top: 25px; border-radius: 4px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        label { font-weight: bold; display: block; margin-bottom: 5px; font-size: 14px; }
-        input[type="text"], input[type="number"], select { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        .question { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .container { max-width: 850px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        
+        /* Formatação Cabeçalho padrão Documento Técnico */
+        .header-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .header-table td { border: 1px solid #333; padding: 10px; text-align: center; font-weight: bold; }
+        .header-title { font-size: 16px; text-transform: uppercase; color: #008751; }
+        
+        h3 { background-color: #008751; color: white; padding: 8px; font-size: 14px; margin-top: 20px; border-radius: 4px; text-transform: uppercase; }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 12px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 12px; }
+        
+        label { font-weight: bold; display: block; margin-bottom: 5px; font-size: 13px; }
+        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #999; border-radius: 4px; font-size: 13px; }
+        textarea { resize: vertical; height: 60px; }
+        
+        .question { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #ddd; font-size: 13px; }
         .radio-group { margin-top: 5px; }
-        .radio-group label { display: inline-block; margin-right: 15px; font-weight: normal; }
-        .signature-container { border: 2px dashed #ccc; background: #fafafa; width: 100%; height: 150px; position: relative; margin-top: 10px; border-radius: 4px; }
+        .radio-group label { display: inline-block; margin-right: 15px; font-weight: normal; cursor: pointer; }
+        
+        .checkbox-item { margin-bottom: 8px; font-weight: normal; display: flex; align-items: center; }
+        .checkbox-item input { margin-right: 8px; }
+
+        /* Area de Assinatura */
+        .signature-container { border: 2px dashed #008751; background: #fafafa; width: 100%; height: 130px; position: relative; margin-top: 10px; border-radius: 4px; }
         canvas { width: 100%; height: 100%; cursor: crosshair; }
-        .btn-clear { background: #ff3333; color: white; border: none; padding: 5px 10px; font-size: 12px; cursor: pointer; border-radius: 4px; margin-top: 5px; }
-        .btn-submit { background: #008751; color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; border-radius: 4px; margin-top: 30px; }
+        
+        .btn-clear { background: #ff3333; color: white; border: none; padding: 6px 12px; font-size: 12px; cursor: pointer; border-radius: 4px; margin-top: 5px; font-weight: bold; }
+        .btn-submit { background: #008751; color: white; border: none; padding: 15px 20px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; border-radius: 4px; margin-top: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .btn-submit:hover { background: #006e41; }
-        .hint { font-size: 12px; color: #666; font-style: italic; margin-top: 2px; }
+        .hint { font-size: 11px; color: #555; font-style: italic; margin-top: 2px; line-height: 1.4; }
+        
+        .footer-note { font-size: 11px; color: #666; margin-top: 15px; background: #eee; padding: 8px; border-radius: 4px; border-left: 4px solid #ff3333; }
     </style>
 </head>
 <body>
 
 <div class="container" id="form-content">
-    <h1>BRTRANSPETRO</h1>
-    <h2>LISTA DE VERIFICAÇÃO PERIÓDICA - ÁREA DE QUÍMICOS<br><small>Revisão 04 - Abril/26</small></h2>
+    
+    <table class="header-table">
+        <tr>
+            <td style="width: 30%; font-size: 18px; color: #008751;">BRTRANSPETRO</td>
+            <td class="header-title" style="width: 45%;">LISTA DE VERIFICAÇÃO PERIÓDICA<br><span style="font-size:12px; color:#333;">ÁREA DE QUÍMICOS</span></td>
+            <td style="width: 25%; font-size: 11px; font-weight: normal; text-align: left;">
+                <b>Revisão:</b> 04 - Abril/26<br>
+                <b>Uso:</b> INTERNA Força de Trabalho
+            </td>
+        </tr>
+    </table>
 
     <h3>1. IDENTIFICAÇÃO</h3>
     <div class="grid-2">
@@ -49,25 +75,24 @@
             <input type="text" id="armazem" value="T017">
         </div>
         <div>
-            <label>Data:</label>
+            <label>Data da Verificação:</label>
             <input type="text" id="data-atual">
         </div>
     </div>
 
-    <h3>2. VERIFICAÇÃO DE FDS (PRODUTOS QUÍMICOS)</h3>
+    <h3>2. VERIFICAÇÃO DE FDS - PRODUTOS QUÍMICOS</h3>
     
     <div class="question">
         <label>1. Quantos produtos químicos há listado no estoque?</label>
-        <div class="hint">Dica: Usar a Transação MB52 e filtrar pelos grupos: 6810, 7920, 4310, 9152, 6630, 9153, 9151, 9135.</div>
-        <input type="number" id="qtd_estoque" value="13">
-    </div>
-
-    <div class="question">
-        <label>2. Quantas FDS estão disponíveis no estoque?</label>
-        <input type="number" id="qtd_fds" value="13">
+        <div class="hint">Dica: usar a Transação MB52 e filtrar por 'grupo de mercadoria' - colocar os seguintes grupos: 6810, 7920, 4310, 9152, 6630, 9153, 9151, 9135.</div>
+        <input type="number" id="qtd_estoque" value="13" style="margin-top: 5px;">
     </div>
 
     <div class="grid-2">
+        <div class="question">
+            <label>2. Quantas FDS estão disponíveis no estoque?</label>
+            <input type="number" id="qtd_fds" value="13">
+        </div>
         <div class="question">
             <label>2a. Falta alguma FDS?</label>
             <div class="radio-group">
@@ -75,23 +100,26 @@
                 <label><input type="radio" name="falta_fds" value="Não" checked> Não</label>
             </div>
         </div>
-        <div class="question">
-            <label>2b. Alguma FDS com nome antigo de FISPQ?</label>
-            <div class="radio-group">
-                <label><input type="radio" name="nome_fispq" value="Sim"> Sim</label>
-                <label><input type="radio" name="nome_fispq" value="Não" checked> Não</label>
-            </div>
+    </div>
+
+    <div class="question">
+        <label>2b. Alguma FDS com nome antigo de FISPQ?</label>
+        <div class="hint">Você deve verificar se ainda existem documentos de segurança identificados como FISPQ (nome antigo), em vez de FDS.</div>
+        <div class="radio-group" style="margin-top: 5px;">
+            <label><input type="radio" name="nome_fispq" value="Sim"> Sim</label>
+            <label><input type="radio" name="nome_fispq" value="Não" checked> Não</label>
         </div>
     </div>
 
     <div class="question">
-        <label>Quais NM's das FDS que faltam ou precisam ser impressas de novo? (Se houver)</label>
-        <input type="text" id="nms_faltantes" placeholder="Ex: NM-XXXXXX, NM-YYYYYY">
+        <label>Quais NM'S das FDS que faltam ou precisam ser impressas novamente? (Se houver)</label>
+        <input type="text" id="nms_faltantes" placeholder="Caso sim, digite os NM's aqui...">
     </div>
 
     <div class="question">
-        <label>3. Estado de conservação: Alguma FDS está rasurada, ilegível ou incompleta?</label>
-        <div class="radio-group">
+        <label>3. Estado de conservação do documento: Alguma FDS está rasurada, ilegível ou incompleta?</label>
+        <div class="hint">(Verificar se as folhas não estão manchadas ou apagadas)</div>
+        <div class="radio-group" style="margin-top: 5px;">
             <label><input type="radio" name="fds_rasurada" value="Sim"> Sim</label>
             <label><input type="radio" name="fds_rasurada" value="Não" checked> Não</label>
         </div>
@@ -106,7 +134,203 @@
     </div>
 
     <div class="question">
-        <label>Se SIM, cada Fabricante/Marca possui sua FDS disponibilizada? E quais os NM's?</label>
+        <label>Se SIM, cada Fabricante/Marca possui sua FDS disponibilizada? Quais os NM's desses produtos?</label>
         <div class="radio-group" style="margin-bottom: 5px;">
             <label><input type="radio" name="fabricante_fds_ok" value="Sim" checked> Sim</label>
-            <label><input type="radio" name="fabric
+            <label><input type="radio" name="fabricante_fds_ok" value="Não"> Não</label>
+        </div>
+        <textarea id="nms_fabricantes">NM-469450, NM-339045, NM-585918, NM-589152</textarea>
+    </div>
+
+    <div class="question">
+        <label>5. Há cilindros para gases na sua área de armazenamento? (Ainda que o material não seja de estoque)</label>
+        <div class="radio-group" style="margin-bottom: 5px;">
+            <label><input type="radio" name="cilindros" value="Sim" checked> Sim</label>
+            <label><input type="radio" name="cilindros" value="Não"> Não</label>
+        </div>
+        <div class="hint">Se 'SIM', o cilindro está com FDS? Qual produto/setor/cor/validade?</div>
+        <input type="text" id="detalhe_cilindro" style="margin-top: 5px;" value="NM-589152 Cilindro 0,9 litros aço carbono DUGOLD validade 01/01/2031">
+    </div>
+
+    <h3>3. INFRAESTRUTURA</h3>
+    <div class="question">
+        <label>6. Os produtos químicos estão dispostos em:</label>
+        <select id="tipo_armazenamento">
+            <option value="Container Corta Fogo com Contenção" selected>Container Corta Fogo com Contenção</option>
+            <option value="Pátio cimentado com sistema de drenagem para separação de água e óleo">Pátio cimentado com sistema de drenagem para separação de água e óleo</option>
+            <option value="Pátio cimentado sem sistema de drenagem visível">Pátio cimentado sem sistema de drenagem visível</option>
+            <option value="Armazenamento em paletes com bacia de contenção">Armazenamento em paletes com bacia de contenção</option>
+            <option value="Uso de bandejas de contenção individuais">Uso de bandejas de contenção individuais</option>
+            <option value="Sem sistema de contenção identificado">Sem sistema de contenção identificado</option>
+        </select>
+    </div>
+
+    <div class="grid-2">
+        <div class="question">
+            <label>7. No caso de pátio ou bacias de contenção, o piso/estrutura está íntegro?</label>
+            <div class="hint">(Deteriorações ainda que de acabamento considerar como NÃO)</div>
+            <div class="radio-group" style="margin-top: 5px;">
+                <label><input type="radio" name="piso_integro" value="Sim" checked> Sim</label>
+                <label><input type="radio" name="piso_integro" value="Não"> Não</label>
+            </div>
+        </div>
+        <div class="question">
+            <label>8. Iluminação da área verificada está funcionando corretamente?</label>
+            <div class="radio-group" style="margin-top: 15px;">
+                <label><input type="radio" name="iluminacao" value="Sim" checked> Sim</label>
+                <label><input type="radio" name="iluminacao" value="Não"> Não</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div class="question">
+            <label>9. O piso está regular para o tráfego da empilhadeira, paleteiras e transpaleteira?</label>
+            <div class="radio-group">
+                <label><input type="radio" name="piso_trafego" value="Sim" checked> Sim</label>
+                <label><input type="radio" name="piso_trafego" value="Não"> Não</label>
+            </div>
+        </div>
+        <div class="question">
+            <label>10. O piso possui sinalização / demarcação?</label>
+            <div class="radio-group" style="margin-top: 15px;">
+                <label><input type="radio" name="sinalizacao_piso" value="Sim" checked> Sim</label>
+                <label><input type="radio" name="sinalizacao_piso" value="Não"> Não</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="question">
+        <label>Observações da Infraestrutura (Se houver, descrever situação ou apontamentos):</label>
+        <input type="text" id="obs_infra" placeholder="Observações gerais...">
+    </div>
+
+    <h3>4. ORGANIZAÇÃO - SEGURANÇA</h3>
+    <div class="question">
+        <label>11. Verificação se os materiais estão dispostos de forma adequada: (Marque as corretas)</label>
+        <div class="checkbox-item"><input type="checkbox" id="org_a" checked> <span><b>a)</b> Os materiais estão identificados (NM, Nome ou outra identificação).</span></div>
+        <div class="checkbox-item"><input type="checkbox" id="org_b" checked> <span><b>b)</b> O empilhamento está estável sem risco de tombamento.</span></div>
+        <div class="checkbox-item"><input type="checkbox" id="org_c" checked> <span><b>c)</b> Os paletes estão em bom estado (íntegros e nivelados).</span></div>
+        <div class="checkbox-item"><input type="checkbox" id="org_d" checked> <span><b>d)</b> O material não bloqueia acesso de rota de fuga.</span></div>
+        <div class="checkbox-item"><input type="checkbox" id="org_e" checked> <span><b>e)</b> Os corredores estão desobstruídos.</span></div>
+    </div>
+
+    <div class="grid-2">
+        <div class="question">
+            <label>12a. Os extintores de incêndio estão dentro da validade?</label>
+            <div class="radio-group">
+                <label><input type="radio" name="extintor_validade" value="Sim" checked> Sim</label>
+                <label><input type="radio" name="extintor_validade" value="Não"> Não</label>
+            </div>
+        </div>
+        <div class="question">
+            <label>12b. Há algum empecilho para chegar aos extintores?</label>
+            <div class="radio-group">
+                <label><input type="radio" name="extintor_obstruido" value="Sim"> Sim</label>
+                <label><input type="radio" name="extintor_obstruido" value="Não" checked> Não</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div class="question">
+            <label>13a. O local possui placas de sinalização apontando saídas de emergência?</label>
+            <div class="radio-group">
+                <label><input type="radio" name="placas_saida" value="Sim" checked> Sim</label>
+                <label><input type="radio" name="placas_saida" value="Não"> Não</label>
+            </div>
+        </div>
+        <div class="question">
+            <label>13b. Se SIM, elas estão visíveis? (sem caixas ou volumes cobrindo)</label>
+            <div class="radio-group">
+                <label><input type="radio" name="placas_visiveis" value="Sim" checked> Sim</label>
+                <label><input type="radio" name="placas_visiveis" value="Não"> Não</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        * Se resposta for <b>NÃO para validade</b>: informar SMS local por e-mail ou SST.<br>
+        * Se resposta for <b>SIM para empecilho ou NÃO para placas</b>: providenciar correção interna e avisar o empregado Transpetro responsável pelo armazém.
+    </div>
+
+    <h3>5. ASSINATURA E REGISTRO</h3>
+    <div style="margin-top:10px; text-align: center; font-size: 13px;">
+        <b>Conferido por:</b> André Luiz de Moraes — Almoxarife — Matrícula: 72528471
+    </div>
+    <div class="signature-container">
+        <canvas id="signature-pad"></canvas>
+    </div>
+    <div style="text-align: right;">
+        <button type="button" class="btn-clear" id="clear-btn">Limpar Assinatura</button>
+    </div>
+
+    <button type="button" class="btn-submit" id="generate-pdf-btn">GERAR PDF DO RELATÓRIO</button>
+</div>
+
+<script>
+    // Configura a data automaticamente
+    const hoje = new Date();
+    document.getElementById('data-atual').value = hoje.toLocaleDateString('pt-BR');
+
+    // Inicialização da Tela de Assinatura Digital
+    const canvas = document.getElementById('signature-pad');
+    const signaturePad = new SignaturePad(canvas, {
+        minWidth: 1,
+        maxWidth: 3,
+        penColor: "rgb(0, 0, 0)"
+    });
+
+    // Função para ajustar o tamanho da tela de assinatura sem distorcer
+    function resizeCanvas() {
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+        signaturePad.clear(); 
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    // Botão Limpar
+    document.getElementById('clear-btn').addEventListener('click', () => {
+        signaturePad.clear();
+    });
+
+    // Gerador de PDF Otimizado para Manter o Visual Original
+    document.getElementById('generate-pdf-btn').addEventListener('click', () => {
+        if (signaturePad.isEmpty()) {
+            alert("Por favor, realize a assinatura antes de exportar o PDF.");
+            return;
+        }
+
+        const btnPdf = document.getElementById('generate-pdf-btn');
+        const btnClear = document.getElementById('clear-btn');
+        
+        // Esconde botões na impressão do PDF
+        btnPdf.style.display = 'none';
+        btnClear.style.display = 'none';
+
+        const element = document.getElementById('form-content');
+        const opt = {
+            margin:       [8, 8, 8, 8],
+            filename:     `Lista_Verificacao_Quimicos_${document.getElementById('data-atual').value.replace(/\//g, '-')}.pdf`,
+            image:        { type: 'jpeg', quality: 1.0 },
+            html2canvas:  { scale: 2, useCORS: true, logging: false },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            // Devolve os botões para a tela do site após gerar o PDF
+            btnPdf.style.display = 'block';
+            btnClear.style.display = 'block';
+        }).catch(err => {
+            console.error(err);
+            btnPdf.style.display = 'block';
+            btnClear.style.display = 'block';
+        });
+    });
+</script>
+
+</body>
+</html>
