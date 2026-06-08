@@ -70,67 +70,75 @@
             </td>
         </tr>
         <tr>
-            <td style="width: 35%;"><strong>Data:</strong> <input type="text" id="data-campo" placeholder="08/06/2026"><span class="print-text" id="print-data"></span></td>
-            <td style="width: 40%;"><strong>Responsável:</strong> <input type="text" id="resp-campo"><span class="print-text" id="print-resp"></span></td>
+            <td style="width: 35%;">
+                <strong>Data:</strong> 
+                <input type="text" id="input-data" value="08/06/2026">
+                <span class="print-text" id="text-data"></span>
+            </td>
+            <td style="width: 40%;">
+                <strong>Responsável:</strong> 
+                <input type="text" id="input-responsavel" placeholder="Nome do inspetor">
+                <span class="print-text" id="text-responsavel"></span>
+            </td>
         </tr>
 
         <tr>
-            <td colspan="3" class="section-title">1. Condições Operacionais e Segurança</td>
+            <td colspan="3" class="section-title">1. Inspeção de Segurança e Equipamentos</td>
         </tr>
         <tr class="header-cell">
             <td class="col-item">Item</td>
-            <td class="col-pergunta">Descrição da Verificação</td>
-            <td class="col-resposta">Status / Resposta</td>
+            <td class="col-pergunta">Descrição do Item de Verificação</td>
+            <td class="col-resposta">Resposta / Estado</td>
         </tr>
         
         <tr>
             <td class="col-item">1.1</td>
             <td class="col-pergunta">
                 Os chuveiros de emergência e lava-olhos estão desobstruídos e operacionais?
-                <span class="hint">Verificar fluxo de água e pressão adequada.</span>
+                <span class="hint">Verifique a pressão da água e a limpeza das bacias.</span>
             </td>
             <td class="col-resposta">
-                <div class="radio-group" id="grupo-1.1">
-                    <label><input type="radio" name="item-1.1" value="Conforme"> Conforme</label>
-                    <label><input type="radio" name="item-1.1" value="Não Conforme"> Não Conforme</label>
-                    <label><input type="radio" name="item-1.1" value="N/A"> N/A</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="item1_1" value="Conforme"> C</label>
+                    <label><input type="radio" name="item1_1" value="Não Conforme"> NC</label>
+                    <label><input type="radio" name="item1_1" value="N/A"> N/A</label>
                 </div>
-                <span class="print-text" id="print-1.1"></span>
+                <span class="print-text" id="text-item1_1"></span>
             </td>
         </tr>
 
         <tr>
             <td class="col-item">1.2</td>
-            <td class="col-pergunta">Observações gerais ou não conformidades identificadas:</td>
+            <td class="col-pergunta">Observações gerais ou descrição de não conformidades:</td>
             <td class="col-resposta">
-                <textarea id="obs-campo" placeholder="Descreva aqui..."></textarea>
-                <span class="print-text" id="print-obs"></span>
+                <textarea id="input-obs" placeholder="Escreva aqui as observações..."></textarea>
+                <span class="print-text" id="text-obs"></span>
             </td>
         </tr>
 
         <tr>
-            <td colspan="3" class="section-title">2. Encerramento e Assinatura Digital</td>
+            <td colspan="3" class="section-title">2. Encerramento</td>
         </tr>
         <tr>
             <td colspan="3">
-                <p style="margin: 5px 0;">Assinatura do Inspetor:</p>
+                <p style="margin: 5px 0;">Assinatura Digital do Responsável:</p>
                 <div class="signature-box">
                     <canvas id="signature-canvas"></canvas>
                 </div>
-                <button class="btn-clear" type="button" id="clear-signature">Limpar Assinatura</button>
+                <button type="button" class="btn-clear" id="btn-limpar">Limpar Assinatura</button>
             </td>
         </tr>
     </table>
 
-    <button class="btn-submit" type="button" id="generate-pdf">Gerar e Salvar PDF</button>
+    <button type="button" class="btn-submit" id="btn-gerar-pdf">Gerar e Guardar PDF</button>
 </div>
 
 <script>
-    // Inicialização da Assinatura Digital (Signature Pad)
+    // Configuração e inicialização da Assinatura Digital (Signature Pad)
     const canvas = document.getElementById('signature-canvas');
     const signaturePad = new SignaturePad(canvas);
 
-    // Ajustar resolução do canvas da assinatura para telas de alta densidade
+    // Ajusta o tamanho do canvas dinamicamente para não perder a proporção do traço
     function resizeCanvas() {
         const ratio = Math.max(window.devicePixelRatio || 1, 1);
         canvas.width = canvas.offsetWidth * ratio;
@@ -141,43 +149,42 @@
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
-    document.getElementById('clear-signature').addEventListener('click', () => {
+    // Botão para limpar o traço da assinatura
+    document.getElementById('btn-limpar').addEventListener('click', () => {
         signaturePad.clear();
     });
 
-    // Função para preparar os dados para o modo PDF e gerar o documento
-    document.getElementById('generate-pdf').addEventListener('click', async () => {
+    // Lógica para exportar para PDF usando html2canvas e jsPDF
+    document.getElementById('btn-gerar-pdf').addEventListener('click', async () => {
         const container = document.getElementById('form-container');
-        
-        // Passa os valores dos inputs para os spans de texto de impressão
-        document.getElementById('print-data').innerText = document.getElementById('data-campo').value || document.getElementById('data-campo').placeholder;
-        document.getElementById('print-resp').innerText = document.getElementById('resp-campo').value;
-        document.getElementById('print-obs').innerText = document.getElementById('obs-campo').value;
 
-        const radioSelected = document.querySelector('input[name="item-1.1"]:checked');
-        document.getElementById('print-1.1').innerText = radioSelected ? radioSelected.value : "Não respondido";
+        // 1. Passa os valores dos inputs/textarea para os spans de texto (obrigatório para aparecer no PDF)
+        document.getElementById('text-data').innerText = document.getElementById('input-data').value;
+        document.getElementById('text-responsavel').innerText = document.getElementById('input-responsavel').value || "Não preenchido";
+        document.getElementById('text-obs').innerText = document.getElementById('input-obs').value || "Nenhuma observação.";
 
-        // Ativa a classe de estilização de PDF
+        const r_checked = document.querySelector('input[name="item1_1"]:checked');
+        document.getElementById('text-item1_1').innerText = r_checked ? r_checked.value : "Não selecionado";
+
+        // 2. Ativa o modo PDF (esconde inputs reais e mostra os textos formatados)
         container.classList.add('pdf-mode');
 
-        // Configuração do jsPDF e html2canvas
+        // 3. Executa a captura do ecrã e gera o PDF
         const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        
         try {
-            const canvasImg = await html2canvas(container, { scale: 2, useCORS: true });
+            const canvasImg = await html2canvas(container, { scale: 2 });
             const imgData = canvasImg.toDataURL('image/png');
             
-            const imgWidth = 210; // Largura A4 em mm
-            const pageHeight = 297; // Altura A4 em mm
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const imgWidth = 210; // Largura do A4 em milímetros
             const imgHeight = (canvasImg.height * imgWidth) / canvasImg.width;
-            
+
             pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-            pdf.save('Lista_Verificacao_Area_Quimicos.pdf');
+            pdf.save('Lista_Verificacao_T036.pdf');
         } catch (error) {
-            console.error("Erro ao gerar PDF:", error);
+            console.error("Erro ao gerar o PDF:", error);
         } finally {
-            // Remove a classe para voltar ao modo de edição na tela
+            // 4. Remove a classe para que o formulário volte a ser editável no navegador
             container.classList.remove('pdf-mode');
         }
     });
