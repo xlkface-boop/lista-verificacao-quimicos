@@ -11,8 +11,13 @@
         body { font-family: Arial, sans-serif; margin: 0; padding: 10px; background-color: #f4f4f9; color: #000; }
         .container { max-width: 850px; margin: auto; background: white; padding: 15px; box-sizing: border-box; border-radius: 4px; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: relative; }
         
+        /* Upload de Logo em Tela */
+        .upload-section { background: #eef5f1; border: 1px dashed #008751; padding: 10px; margin-bottom: 15px; text-align: center; border-radius: 4px; }
+        .upload-section label { font-weight: bold; color: #008751; cursor: pointer; font-size: 13px; }
+        #logo-uploader { display: none; }
+
         /* Fundo com marca d'água corporativa sutil */
-        .watermark-bg { position: absolute; top: 280px; left: 15%; width: 70%; opacity: 0.03; pointer-events: none; z-index: 0; }
+        .watermark-bg { position: absolute; top: 250px; left: 10%; width: 80%; opacity: 0.03; pointer-events: none; z-index: 0; display: none; }
         
         /* Tabelas e Proporções das Colunas Ajustadas */
         .checklist-table { width: 100%; border-collapse: collapse; font-size: 11px; color: #000; position: relative; z-index: 1; background: rgba(255, 255, 255, 0.9); margin-bottom: 10px; }
@@ -21,12 +26,12 @@
         .section-title { background-color: #008751; color: white; font-weight: bold; text-transform: uppercase; font-size: 11.5px; }
         .header-cell { font-weight: bold; text-align: center; background-color: #f2f2f2; }
         
-        /* Proporção perfeita solicitada: Campo de pergunta menor, resposta maior */
         .col-item { width: 6%; text-align: center; font-weight: bold; }
         .col-pergunta { width: 44%; } 
         .col-resposta { width: 50%; }
 
-        .logo-img { max-width: 170px; height: auto; display: block; margin: 0 auto; }
+        .logo-placeholder { font-size: 10px; color: #666; font-style: italic; text-align: center; }
+        .logo-img { max-width: 190px; max-height: 50px; object-fit: contain; display: none; margin: 0 auto; }
         
         /* Elementos de Formulário */
         input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 5px; box-sizing: border-box; border: 1px solid #a6a6a6; border-radius: 3px; font-size: 11.5px; font-family: Arial, sans-serif; }
@@ -48,22 +53,29 @@
 
         /* Estilização Exclusiva de Impressão de PDF */
         .print-text { display: none; font-weight: normal; }
-        .pdf-mode input, .pdf-mode select, .pdf-mode textarea, .pdf-mode .radio-group, .pdf-mode .checkbox-group, .pdf-mode .btn-clear { display: none !important; }
+        .pdf-mode input, .pdf-mode select, .pdf-mode textarea, .pdf-mode .radio-group, .pdf-mode .checkbox-group, .pdf-mode .btn-clear, .pdf-mode .upload-section { display: none !important; }
         .pdf-mode .print-text { display: inline-block !important; }
         .pdf-mode .signature-box { border: 1px solid #000 !important; background: transparent !important; }
         .pdf-mode .checklist-table { background: transparent !important; }
-        .pdf-mode .watermark-bg { opacity: 0.05 !important; }
+        .pdf-mode .watermark-bg { opacity: 0.04 !important; }
     </style>
 </head>
 <body>
 
 <div class="container" id="form-container">
-    <img src="data:image/png;base64,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" class="watermark-bg" alt="Marca d'água">
+    
+    <div class="upload-section">
+        <label for="logo-uploader">📎 Clique aqui para carregar o arquivo "transpetro_h-RGB.jpg"</label>
+        <input type="file" id="logo-uploader" accept="image/*">
+    </div>
+
+    <img id="watermark-image" class="watermark-bg" alt="Marca d'água">
 
     <table class="checklist-table">
         <tr>
-            <td rowspan="2" style="width: 25%; text-align: center;">
-                <img src="data:image/png;base64,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" class="logo-img" alt="Logo Transpetro">
+            <td rowspan="2" style="width: 25%; text-align: center;" id="logo-header-cell">
+                <div class="logo-placeholder" id="placeholder-text">[ Sem Logo Carregado ]</div>
+                <img id="header-logo-image" class="logo-img" alt="Logo Transpetro">
             </td>
             <td style="width: 50%; font-size: 12.5px; font-weight: bold; text-align: center; text-transform: uppercase;">
                 LISTA DE VERIFICAÇÃO PERIÓDICA<br>ÁREA DE QUÍMICOS
@@ -377,7 +389,28 @@
     const hoje = new Date();
     document.getElementById('data-atual').value = hoje.toLocaleDateString('pt-BR');
 
-    // 2. Setup do Painel de Assinatura Digital
+    // 2. Leitor Dinâmico do Arquivo de Imagem (Evita corromper dados)
+    document.getElementById('logo-uploader').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Injeta a imagem no cabeçalho
+                const headerImg = document.getElementById('header-logo-image');
+                headerImg.src = e.target.result;
+                headerImg.style.display = 'block';
+                document.getElementById('placeholder-text').style.display = 'none';
+
+                // Injeta a imagem na marca d'água de fundo
+                const watermarkImg = document.getElementById('watermark-image');
+                watermarkImg.src = e.target.result;
+                watermarkImg.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // 3. Setup do Painel de Assinatura Digital
     const canvas = document.getElementById('signature-pad');
     const signaturePad = new SignaturePad(canvas, { minWidth: 1.5, maxWidth: 3.5, penColor: "black" });
 
@@ -393,7 +426,7 @@
 
     document.getElementById('clear-btn').addEventListener('click', () => signaturePad.clear());
 
-    // 3. Converte os inputs ativos em texto estático formatado para o PDF [ X ]
+    // 4. Converte os inputs ativos em texto estático formatado para o PDF [ X ]
     function processarTextosImpressao() {
         const nomeDigitado = document.getElementById('nome').value;
         const matriculaDigitada = document.getElementById('matricula').value;
@@ -439,7 +472,7 @@
                                                          "\nVisíveis: " + (obterRadio('placas_visiveis') === "Sim" ? "( X ) Sim  (   ) Não" : "(   ) Sim  ( X ) Não");
     }
 
-    // 4. Mecanismo de Renderização e Download do PDF
+    // 5. Mecanismo de Renderização e Download do PDF
     document.getElementById('generate-pdf-btn').addEventListener('click', async () => {
         if (signaturePad.isEmpty()) {
             alert("Atenção: A assinatura do almoxarife é obrigatória antes de exportar o PDF!");
