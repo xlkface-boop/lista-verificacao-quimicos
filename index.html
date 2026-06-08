@@ -1,1 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Verificação Periódica - Área de Químicos</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; color: #333; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #008751; font-size: 22px; text-transform: uppercase; margin-bottom: 5px; }
+        h2 { text-align: center; font-size: 14px; color: #555; margin-top: 0; margin-bottom: 25px; }
+        h3 { background-color: #008751; color: white; padding: 8px; font-size: 16px; margin-top: 25px; border-radius: 4px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        label { font-weight: bold; display: block; margin-bottom: 5px; font-size: 14px; }
+        input[type="text"], input[type="number"], select { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .question { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .radio-group { margin-top: 5px; }
+        .radio-group label { display: inline-block; margin-right: 15px; font-weight: normal; }
+        .signature-container { border: 2px dashed #ccc; background: #fafafa; width: 100%; height: 150px; position: relative; margin-top: 10px; border-radius: 4px; }
+        canvas { width: 100%; height: 100%; cursor: crosshair; }
+        .btn-clear { background: #ff3333; color: white; border: none; padding: 5px 10px; font-size: 12px; cursor: pointer; border-radius: 4px; margin-top: 5px; }
+        .btn-submit { background: #008751; color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; border-radius: 4px; margin-top: 30px; }
+        .btn-submit:hover { background: #006e41; }
+        .hint { font-size: 12px; color: #666; font-style: italic; margin-top: 2px; }
+    </style>
+</head>
+<body>
 
+<div class="container" id="form-content">
+    <h1>BRTRANSPETRO</h1>
+    <h2>LISTA DE VERIFICAÇÃO PERIÓDICA - ÁREA DE QUÍMICOS<br><small>Revisão 04 - Abril/26</small></h2>
+
+    <h3>1. IDENTIFICAÇÃO</h3>
+    <div class="grid-2">
+        <div>
+            <label>Responsável / Almoxarife:</label>
+            <input type="text" id="nome" value="André Luiz de Moraes">
+        </div>
+        <div>
+            <label>Matrícula:</label>
+            <input type="text" id="matricula" value="72528471">
+        </div>
+    </div>
+    <div class="grid-2">
+        <div>
+            <label>Armazém:</label>
+            <input type="text" id="armazem" value="T017">
+        </div>
+        <div>
+            <label>Data:</label>
+            <input type="text" id="data-atual">
+        </div>
+    </div>
+
+    <h3>2. VERIFICAÇÃO DE FDS (PRODUTOS QUÍMICOS)</h3>
+    
+    <div class="question">
+        <label>1. Quantos produtos químicos há listado no estoque?</label>
+        <div class="hint">Dica: Usar a Transação MB52 e filtrar pelos grupos: 6810, 7920, 4310, 9152, 6630, 9153, 9151, 9135.</div>
+        <input type="number" id="qtd_estoque" value="13">
+    </div>
+
+    <div class="question">
+        <label>2. Quantas FDS estão disponíveis no estoque?</label>
+        <input type="number" id="qtd_fds" value="13">
+    </div>
+
+    <div class="grid-2">
+        <div class="question">
+            <label>2a. Falta alguma FDS?</label>
+            <div class="radio-group">
+                <label><input type="radio" name="falta_fds" value="Sim"> Sim</label>
+                <label><input type="radio" name="falta_fds" value="Não" checked> Não</label>
+            </div>
+        </div>
+        <div class="question">
+            <label>2b. Alguma FDS com nome antigo de FISPQ?</label>
+            <div class="radio-group">
+                <label><input type="radio" name="nome_fispq" value="Sim"> Sim</label>
+                <label><input type="radio" name="nome_fispq" value="Não" checked> Não</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="question">
+        <label>Quais NM's das FDS que faltam ou precisam ser impressas de novo? (Se houver)</label>
+        <input type="text" id="nms_faltantes" placeholder="Ex: NM-XXXXXX, NM-YYYYYY">
+    </div>
+
+    <div class="question">
+        <label>3. Estado de conservação: Alguma FDS está rasurada, ilegível ou incompleta?</label>
+        <div class="radio-group">
+            <label><input type="radio" name="fds_rasurada" value="Sim"> Sim</label>
+            <label><input type="radio" name="fds_rasurada" value="Não" checked> Não</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <label>4. Há algum NM com fabricante/marca/tipo diferentes em estoque?</label>
+        <div class="radio-group">
+            <label><input type="radio" name="fabricante_dif" value="Sim" checked> Sim</label>
+            <label><input type="radio" name="fabricante_dif" value="Não"> Não</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <label>Se SIM, cada Fabricante/Marca possui sua FDS disponibilizada? E quais os NM's?</label>
+        <div class="radio-group" style="margin-bottom: 5px;">
+            <label><input type="radio" name="fabricante_fds_ok" value="Sim" checked> Sim</label>
+            <label><input type="radio" name="fabric
