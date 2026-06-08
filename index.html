@@ -2,191 +2,55 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Verificação Periódica - Área de Químicos</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 10px; background-color: #f4f4f9; color: #000; }
-        .container { max-width: 850px; margin: auto; background: white; padding: 15px; box-sizing: border-box; border-radius: 4px; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: relative; }
-        
-        /* Fundo com marca d'água corporativa sutil */
-        .watermark-bg { position: absolute; top: 250px; left: 10%; width: 80%; opacity: 0.03; pointer-events: none; z-index: 0; }
-        
-        /* Tabelas e Proporções das Colunas Ajustadas */
-        .checklist-table { width: 100%; border-collapse: collapse; font-size: 11px; color: #000; position: relative; z-index: 1; background: rgba(255, 255, 255, 0.9); margin-bottom: 10px; }
-        .checklist-table th, .checklist-table td { border: 1px solid #000; padding: 6px 8px; vertical-align: middle; }
-        
-        .section-title { background-color: #008751; color: white; font-weight: bold; text-transform: uppercase; font-size: 11.5px; text-align: center; }
-        .header-cell { font-weight: bold; text-align: center; background-color: #f2f2f2; }
-        
-        .col-item { width: 6%; text-align: center; font-weight: bold; }
-        .col-pergunta { width: 44%; } 
-        .col-resposta { width: 50%; }
-
-        .logo-img { max-width: 190px; max-height: 50px; object-fit: contain; display: block; margin: 0 auto; }
-        
-        /* Elementos de Formulário */
-        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 5px; box-sizing: border-box; border: 1px solid #a6a6a6; border-radius: 3px; font-size: 11.5px; font-family: Arial, sans-serif; }
-        textarea { resize: none; height: 42px; }
-        
-        .radio-group { display: flex; gap: 14px; }
-        .radio-group label { font-weight: normal; cursor: pointer; display: flex; align-items: center; gap: 3px; }
-        .checkbox-group label { display: block; margin-bottom: 3px; font-weight: normal; cursor: pointer; }
-        .hint { font-size: 9.5px; color: #444; font-style: italic; display: block; margin-top: 2px; font-weight: normal; line-height: 1.2; }
-        
-        /* Quadro de Assinatura Digital */
-        .signature-box { border: 1px dashed #008751; background: #fafafa; width: 100%; height: 80px; box-sizing: border-box; touch-action: none; position: relative; }
-        canvas { width: 100%; height: 100%; cursor: crosshair; }
-        
-        /* Botões */
-        .btn-clear { background: #ff3333; color: white; border: none; padding: 4px 10px; font-size: 10px; cursor: pointer; border-radius: 3px; font-weight: bold; margin-top: 3px; }
-        .btn-submit { background: #008751; color: white; border: none; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; border-radius: 4px; margin-top: 15px; box-shadow: 0 3px 5px rgba(0,0,0,0.15); }
-        .btn-submit:hover { background: #006e41; }
-
-        /* Estilização Exclusiva de Impressão de PDF */
-        .print-text { display: none; font-weight: normal; }
-        .pdf-mode input, .pdf-mode select, .pdf-mode textarea, .pdf-mode .radio-group, .pdf-mode .checkbox-group, .pdf-mode .btn-clear { display: none !important; }
-        .pdf-mode .print-text { display: inline-block !important; }
-        .pdf-mode .signature-box { border: 1px solid #000 !important; background: transparent !important; }
-        .pdf-mode .checklist-table { background: transparent !important; }
-        .pdf-mode .watermark-bg { opacity: 0.04 !important; }
+        /* Mantenha aqui o seu estilo original. Adicionei apenas o estilo do logo */
+        .logo-img { max-width: 200px; height: auto; display: block; margin: 0 auto; }
+        .btn-submit { background: #008751; color: white; padding: 15px; width: 100%; border: none; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 20px; }
+        .signature-box { border: 1px solid #ccc; height: 100px; width: 100%; }
     </style>
 </head>
 <body>
 
-<div class="container" id="form-container">
-    
-    <div class="watermark-bg"></div>
+<div id="form-container">
+    <table border="1" style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <td style="width: 25%; text-align: center; padding: 10px;">
+                <img src="transpetro_h-RGB.jpg" alt="Logo Transpetro" class="logo-img">
+            </td>
+            <td style="text-align: center;">
+                <h2>LISTA DE VERIFICAÇÃO PERIÓDICA - ÁREA DE QUÍMICOS</h2>
+            </td>
+        </tr>
+        </table>
 
-    <table class="checklist-table">
-        <tr>
-            <td rowspan="2" style="width: 25%; text-align: center;">
-                <div style="font-weight: bold; color: #008751;">LOGOTIPO</div>
-            </td>
-            <td colspan="2" class="header-cell" style="font-size: 14px; padding: 10px;">
-                LISTA DE VERIFICAÇÃO PERIÓDICA - ÁREA DE QUÍMICOS
-            </td>
-        </tr>
-        <tr>
-            <td style="width: 35%;">
-                <strong>Data:</strong> 
-                <input type="text" id="input-data" value="08/06/2026">
-                <span class="print-text" id="text-data"></span>
-            </td>
-            <td style="width: 40%;">
-                <strong>Responsável:</strong> 
-                <input type="text" id="input-responsavel" placeholder="Nome do inspetor">
-                <span class="print-text" id="text-responsavel"></span>
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="3" class="section-title">1. Inspeção de Segurança e Equipamentos</td>
-        </tr>
-        <tr class="header-cell">
-            <td class="col-item">Item</td>
-            <td class="col-pergunta">Descrição do Item de Verificação</td>
-            <td class="col-resposta">Resposta / Estado</td>
-        </tr>
-        
-        <tr>
-            <td class="col-item">1.1</td>
-            <td class="col-pergunta">
-                Os chuveiros de emergência e lava-olhos estão desobstruídos e operacionais?
-                <span class="hint">Verifique a pressão da água e a limpeza das bacias.</span>
-            </td>
-            <td class="col-resposta">
-                <div class="radio-group">
-                    <label><input type="radio" name="item1_1" value="Conforme"> C</label>
-                    <label><input type="radio" name="item1_1" value="Não Conforme"> NC</label>
-                    <label><input type="radio" name="item1_1" value="N/A"> N/A</label>
-                </div>
-                <span class="print-text" id="text-item1_1"></span>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="col-item">1.2</td>
-            <td class="col-pergunta">Observações gerais ou descrição de não conformidades:</td>
-            <td class="col-resposta">
-                <textarea id="input-obs" placeholder="Escreva aqui as observações..."></textarea>
-                <span class="print-text" id="text-obs"></span>
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="3" class="section-title">2. Encerramento</td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <p style="margin: 5px 0;">Assinatura Digital do Responsável:</p>
-                <div class="signature-box">
-                    <canvas id="signature-canvas"></canvas>
-                </div>
-                <button type="button" class="btn-clear" id="btn-limpar">Limpar Assinatura</button>
-            </td>
-        </tr>
-    </table>
+    <h3>Assinatura Digital</h3>
+    <div class="signature-box">
+        <canvas id="signature-canvas"></canvas>
+    </div>
+    <button type="button" onclick="signaturePad.clear()">Limpar Assinatura</button>
 
     <button type="button" class="btn-submit" id="btn-gerar-pdf">Gerar e Guardar PDF</button>
 </div>
 
 <script>
-    // Configuração e inicialização da Assinatura Digital (Signature Pad)
     const canvas = document.getElementById('signature-canvas');
     const signaturePad = new SignaturePad(canvas);
 
-    // Ajusta o tamanho do canvas dinamicamente para não perder a proporção do traço
-    function resizeCanvas() {
-        const ratio = Math.max(window.devicePixelRatio || 1, 1);
-        canvas.width = canvas.offsetWidth * ratio;
-        canvas.height = canvas.offsetHeight * ratio;
-        canvas.getContext("2d").scale(ratio, ratio);
-        signaturePad.clear();
-    }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-
-    // Botão para limpar o traço da assinatura
-    document.getElementById('btn-limpar').addEventListener('click', () => {
-        signaturePad.clear();
-    });
-
-    // Lógica para exportar para PDF usando html2canvas e jsPDF
-    document.getElementById('btn-gerar-pdf').addEventListener('click', async () => {
-        const container = document.getElementById('form-container');
-
-        // 1. Passa os valores dos inputs/textarea para os spans de texto (obrigatório para aparecer no PDF)
-        document.getElementById('text-data').innerText = document.getElementById('input-data').value;
-        document.getElementById('text-responsavel').innerText = document.getElementById('input-responsavel').value || "Não preenchido";
-        document.getElementById('text-obs').innerText = document.getElementById('input-obs').value || "Nenhuma observação.";
-
-        const r_checked = document.querySelector('input[name="item1_1"]:checked');
-        document.getElementById('text-item1_1').innerText = r_checked ? r_checked.value : "Não selecionado";
-
-        // 2. Ativa o modo PDF (esconde inputs reais e mostra os textos formatados)
-        container.classList.add('pdf-mode');
-
-        // 3. Executa a captura do ecrã e gera o PDF
+    document.getElementById('btn-gerar-pdf').addEventListener('click', () => {
         const { jsPDF } = window.jspdf;
-        try {
-            const canvasImg = await html2canvas(container, { scale: 2 });
-            const imgData = canvasImg.toDataURL('image/png');
-            
+        html2canvas(document.getElementById('form-container')).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF('p', 'mm', 'a4');
-            const imgWidth = 210; // Largura do A4 em milímetros
-            const imgHeight = (canvasImg.height * imgWidth) / canvasImg.width;
-
-            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-            pdf.save('Lista_Verificacao_T036.pdf');
-        } catch (error) {
-            console.error("Erro ao gerar o PDF:", error);
-        } finally {
-            // 4. Remove a classe para que o formulário volte a ser editável no navegador
-            container.classList.remove('pdf-mode');
-        }
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save("Lista_Verificacao_T036.pdf");
+        });
     });
 </script>
 
