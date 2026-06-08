@@ -8,83 +8,45 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            margin: 0; 
-            padding: 10px; 
-            background-color: #f4f4f9; 
-            color: #000; 
-        }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 10px; background-color: #f4f4f9; color: #000; }
+        .container { max-width: 850px; margin: auto; background: white; padding: 15px; box-sizing: border-box; border-radius: 4px; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: relative; }
         
-        .container { 
-            max-width: 850px; 
-            margin: auto; 
-            background: white; 
-            padding: 15px; 
-            box-sizing: border-box;
-            border-radius: 4px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            position: relative;
-        }
-
-        /* Fundo com marca d'água sutil igual ao modelo corporativo */
-        .watermark-bg {
-            position: absolute;
-            top: 250px;
-            left: 10%;
-            width: 80%;
-            opacity: 0.04;
-            pointer-events: none;
-            z-index: 0;
-        }
+        /* Fundo com marca d'água corporativa sutil */
+        .watermark-bg { position: absolute; top: 280px; left: 10%; width: 80%; opacity: 0.03; pointer-events: none; z-index: 0; }
         
-        /* Estrutura de Tabela Corrigida e Proporcional */
-        .checklist-table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            font-size: 11px; 
-            color: #000; 
-            position: relative;
-            z-index: 1;
-            background: rgba(255, 255, 255, 0.9);
-        }
-        .checklist-table th, .checklist-table td { border: 1px solid #000; padding: 5px 8px; vertical-align: middle; }
+        /* Tabelas e Proporções das Colunas Ajustadas */
+        .checklist-table { width: 100%; border-collapse: collapse; font-size: 11px; color: #000; position: relative; z-index: 1; background: rgba(255, 255, 255, 0.9); margin-bottom: 10px; }
+        .checklist-table th, .checklist-table td { border: 1px solid #000; padding: 6px 8px; vertical-align: middle; }
         
         .section-title { background-color: #008751; color: white; font-weight: bold; text-transform: uppercase; font-size: 11.5px; }
         .header-cell { font-weight: bold; text-align: center; background-color: #f2f2f2; }
         
-        /* AJUSTE DE PROPORÇÃO DAS COLUNAS (TOLERÂNCIA E ESPAÇO) */
+        /* Proporção perfeita solicitada: Campo de pergunta menor, resposta maior */
         .col-item { width: 6%; text-align: center; font-weight: bold; }
-        .col-pergunta { width: 49%; } /* Diminuído para dar mais espaço à resposta */
-        .col-resposta { width: 45%; } /* Aumentado para acomodar melhor os campos */
+        .col-pergunta { width: 44%; } 
+        .col-resposta { width: 50%; }
 
-        /* Logotipo Corporativo */
-        .logo-img {
-            max-width: 180px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
+        .logo-img { max-width: 160px; height: auto; display: block; margin: 0 auto; }
         
-        /* Formulários Visuais da Tela */
+        /* Elementos de Formulário */
         input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 5px; box-sizing: border-box; border: 1px solid #a6a6a6; border-radius: 3px; font-size: 11.5px; font-family: Arial, sans-serif; }
-        textarea { resize: none; height: 40px; }
+        textarea { resize: none; height: 42px; }
         
-        .radio-group { display: flex; gap: 12px; }
+        .radio-group { display: flex; gap: 14px; }
         .radio-group label { font-weight: normal; cursor: pointer; display: flex; align-items: center; gap: 3px; }
-        .checkbox-group label { display: block; margin-bottom: 2px; font-weight: normal; cursor: pointer; }
+        .checkbox-group label { display: block; margin-bottom: 3px; font-weight: normal; cursor: pointer; }
         .hint { font-size: 9.5px; color: #444; font-style: italic; display: block; margin-top: 2px; font-weight: normal; line-height: 1.2; }
         
-        /* Área de Assinatura */
-        .signature-box { border: 1px dashed #008751; background: #fafafa; width: 100%; height: 70px; box-sizing: border-box; touch-action: none; }
-        canvas { width: 100%; height: 100%; }
+        /* Quadro de Assinatura Digital */
+        .signature-box { border: 1px dashed #008751; background: #fafafa; width: 100%; height: 80px; box-sizing: border-box; touch-action: none; position: relative; }
+        canvas { width: 100%; height: 100%; cursor: crosshair; }
         
         /* Botões */
-        .btn-clear { background: #ff3333; color: white; border: none; padding: 3px 8px; font-size: 10px; cursor: pointer; border-radius: 3px; font-weight: bold; margin-top: 2px; }
+        .btn-clear { background: #ff3333; color: white; border: none; padding: 4px 10px; font-size: 10px; cursor: pointer; border-radius: 3px; font-weight: bold; margin-top: 3px; }
         .btn-submit { background: #008751; color: white; border: none; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; border-radius: 4px; margin-top: 15px; box-shadow: 0 3px 5px rgba(0,0,0,0.15); }
         .btn-submit:hover { background: #006e41; }
 
-        /* Máscara de Substituição de Impressão (Texto Puro [ X ]) */
+        /* Estilização Exclusiva de Impressão de PDF */
         .print-text { display: none; font-weight: normal; }
         .pdf-mode input, .pdf-mode select, .pdf-mode textarea, .pdf-mode .radio-group, .pdf-mode .checkbox-group, .pdf-mode .btn-clear { display: none !important; }
         .pdf-mode .print-text { display: inline-block !important; }
@@ -96,14 +58,14 @@
 <body>
 
 <div class="container" id="form-container">
-    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCADwAUADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4T1l3eXl6vHFkY3BxslPxEBADAMFBQQEAAQFBQUgEAECAwQFBgcICQoL/QEDBAUGBwgJCgsBAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKCxl/EAACAgEEAgICAwUWGwAAAAAAAAECAwQRBRIhMUEGE1FhInEUMggrChVTGkJiwRUXQXGBkfFSYnKCkqMiMHODNBE0VGNzk7Q3Njc4OT5EQ0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACpInSNoJHVEQFmZjgADqSadhN23HUVDbXdtfQ+daXEU8WSN8ThhkdRkVNVOLWjBNNXRFNdW1u8STzxxPM+yNXcAscZwM9TUtcr4l1KylvNIhjuoHkXUIDIiyDKhs4z9ciurqIu8mhRmpNrtsFFFFWVcKKKCQASTgDqTRuDdlqFFV7W/s77f9ku4J9hw3kyBtp98E4qxTcWtGSpRkrp3CiiikUFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAGfrms23h/SJ9Suw5ihA+VBlmJOABXGeGvileax4gSyuNDmit52AjkiBcp7v87I7nt+lbs80mueJpLF7ZZ9P05kModcxl2QnEnZuo2p9XPRaoeB/E/9bWsapayWNrZ+QqmGKOMK4jLMFV8d8KOmOQR6Clyv4jGVVxlZHTeINIi1vSLmzmDkvG4Ty2KncUIHTryRweOK83GoeJND03RNGhWeW4eXyxPcxv9qOws0oKk/Oo2rgg9H/EnvPG3iDTZ9SstRvBFPp959mgvY7NWSfIdsyLkEAbQuV7nPOMVZk+IM93Z+GrqytvOu9SkmSSCFwUdlXgAnBwWwOnSp5r9TepT1VnuaM3i3UrrUrDR7LTf7PvLyKSQyX2XWAKWADKuCxIAOMrWToHjjxJrOofYotKgmkiwZpvLkiSIsisqyE5CHJPGWP6Z19U0/xBLeabr9pBYf2pBDJBPaSTN5W1zkBXwDkYHbB5ql4fXWNCvdfkntIrwNcxvPFY8eSrKcyIrcuSxJKg9M+mCHLrcuVP3737HeDdtGQM9/SiuP8Ahpeajf8 hM90uwy53KM/dyeePTtiuwpI2i7q5m+IdX/sLQbzUhCZmgTKoO7EgDPtkjNebf8ACd6/f+FLvVreU29yt3HEqPauI2DRF8KTwyg/xcHqOfvV6TrElnFpF1LfxrJaRoXlRkDBgvOCDx2rgrfxnba9bNo2reHZ7COYCOOOVTIis0TSFioUFVUAcjOM/DfSktTDEJ8ytKxV0jxzreg6Xp0mr2S3NhPBLILlU2vKyksWOD937wX5RwM9wK6/R9fvLnVZNK1Wyis73yFuYhFP5qvGSRg/KMEYOfqK5XSPF7a3a6PpWr6BJeQXXmKk8yDypFUMGcgqcAgNznAOOenmXW0rU9U8STayulQ2k9xYL9kg1FfN8gRs3meXsO3c2cZyRwvHXC5rE009IuX3b/AC39TkfFfxF8QWeqarBZSxw20EogikEGdrLId4ctwSVAUY6DJrpfD3jvXte0G81GTSktEt/MkWWRP3coWMkhVzvXDDrnnI7GuY1vx7ea8vky6Xp9ve200E9u67m**3A29W5I6NjgYyOasvY+MfGfhpNMsLSz0yG0leW6DStCJ3LkgAHcwG4buRzlcZwTRzN7Ezc+dODun+Xod/w4UEnoRRSKyuodWDKwyCDkEUAnJBAx2PrTsR7Tz6C0UUUiwooooAKKKKACiiigCgukWaa1Jq4VvtckCwElvlABz09ff2FV9fvvM8MaxcaXcK8sEUieZC+7ZIoORkd1yOPrWjdyyx2szwQPPKiErErKpdscAE8Ams/R4LySyuV1XTYLKa5kZpI4pPMRwwClmOBkkAjvxjNSzGWi5YnAfDK61PUvDWpwW99btdrdRytLdAs6x7w7sTks7FQyqMdcCuv8AFvhL/hK0tLeW+eCzikEk0SAkuR07gcZ7itfTNJ0/RrVbbT7SG3iXskinP1PUnpVyjlWwqlPmqN9DmpPArPqkE/8Abr/Yra6juILPyv3cOxidgG7n69jyeoq9b+EdPi0fUtLuC89tqEzzSlsKwY+jDuCByfT3NblFLlQ40oxZgeEfDFvakaofYotKgmkiwZpvLkiSIsisqyE5CHJPGWP6Z19U0/xBLeabr9pBYf2pBDJBPaSTN5W1zkBXwDkYHbB5ql4fXWNCvdfkntIrwNcxvPFY8eSrKcyIrcuSxJKg9M+mCHLrcuVP3737HeDdtGQM9/SiuP8Ahpeajf8 hM90uwy53KM/dyeePTtiuwpI2i7q5m+IdX/sLQbzUhCZmgTKoO7EgDPtkjNebf8ACd6/f+FLvVreU29yt3HEqPauI2DRF8KTwyg/xcHqOfvV6TrElnFpF1LfxrJaRoXlRkDBgvOCDx2rgrfxnba9bNo2reHZ7COYCOOOVTIis0TSFioUFVUAcjOM/DfSktTDEJ8ytKxV0jxzreg6Xp0mr2S3NhPBLILlU2vKyksWOD937wX5RwM9wK6/R9fvLnVZNK1Wyis73yFuYhFP5qvGSRg/KMEYOfqK5XSPF7a3a6PpWr6BJeQXXmKk8yDypFUMGcgqcAgNznAOOenmXW0rU9U8STayulQ2k9xYL9kg1FfN8gRs3meXsO3c2cZyRwvHXC5rE009IuX3b/AC39TkfFfxF8QWeqarBZSxw20EogikEGdrLId4ctwSVAUY6DJrpfD3jvXte0G81GTSktEt/MkWWRP3coWMkhVzvXDDrnnI7GuY1vx7ea8vky6Xp9ve200E9u67m**3A29W5I6NjgYyOasvY+MfGfhpNMsLSz0yG0leW6DStCJ3LkgAHcwG4buRzlcZwTRzN7Ezc+dODun+Xod/w4UEnoRRSKyuodWDKwyCDkEUAnJBAx2PrTsR7Tz6C0UUUiwooooAKKKKACiiigCgukWaa1Jq4VvtckCwElvlABz09ff2FV9fvvM8MaxcaXcK8sEUieZC+7ZIoORkd1yOPrWjdyyx2szwQPPKiErErKpdscAE8Ams/R4LySyuV1XTYLKa5kZpI4pPMRwwClmOBkkAjvxjNSzGWi5YnAfDK61PUvDWpwW99btdrdRytLdAs6x7w7sTks7FQyqMdcCuv8AFvhL/hK0tLeW+eCzikEk0SAkuR07gcZ7itfTNJ0/RrVbbT7SG3iXskinP1PUnpVyjlWwqlPmqN9DmpPArPqkE/8Abr/Yra6juILPyv3cOxidgG7n69jyeoq9b+EdPi0fUtLuC89tqEzzSlsKwY+jDuCByfT3NblFLlQ40oxZgeEfDFv4T0h7GCeSdpZjM8jgDc2APu844Uf/AFsc79FFNKxo9WZWsaBYa/ay2t9GWhlKElDgqVycg/8AfX4iuO8Y+CLiS+0aTwxbQ2XlyO8ssKKux1iPlluu7HGB68f3cej0UmjKpSjNOLPn/wAMah4x1Xxlb2+p6jPFcWUxeWOYhYmVXCsAnRvlZvlHUnr97Htut+H7PWIIna2tzexSpLFPInKMMAnjkjGQATwDxWHpnhO6vPEN1rnidLee82rFaLAfkiVSWyP7p9OpyTnnGO5pJW3FRhKMOWWvrsYureGdP1fSLjTrgNsuXjkkkyCwdNuzBPvGpI9Pqcz6Doi6Hp8doLuW6dEEfnSqqnaCTgADpliSevNa1FOxvZXCiiigYUUUUAFFFFABRRQeeM496ACiuD1PxRr39v32nWWpeH7S2tzGEfULg+YxZQTwGHf/AGfTntXRaFfzz2KDUb+xlvXyR9kb5GHqoPOfYg/gRSUrkTqRi7PfyNyimRzRzAmORHCkqSjA4PofemtdW6TiB7iJZT0jLgMfw607lrXYloo60UDCiiigA/Gj8aCQBk9PWozcwC4EBniE7DKxlwGI9cdadhNpbiuXWNmRDI4BKoCBuPpn3rlbPxNrkHiCwsNa0m2toL8uIZIpt7KQpPIyRjoMHHXr2rrbidLW3lnkzsjUs2Bk8VxP8AwlOm6pdx6pqGiXSWlmXMM0rNlMghmePGMADPGeD1HGE7GVaSWraWp3VFNDqyBlYMpGQwOQaYbmBZREZo/NPSPeNx/DrTvY2XvLQmopBnsM0uOefpQMWiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD//Z" class="watermark-bg" alt="Watermark">
+    <img src="data:image/png;base64,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" class="watermark-bg" alt="Marca d'água">
 
-    <table class="checklist-table" id="table-to-print">
+    <table class="checklist-table">
         <tr>
             <td rowspan="2" style="width: 25%; text-align: center;">
-                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCADwAUADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4T1l3eXl6vHFkY3BxslPxEBADAMFBQQEAAQFBQUgEAECAwQFBgcICQoL/QEDBAUGBwgJCgsBAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKCxl/EAACAgEEAgICAwUWGwAAAAAAAAECAwQRBRIhMUEGE1FhInEUMggrChVTGkJiwRUXQXGBkfFSYnKCkqMiMHODNBE0VGNzk7Q3Njc4OT5EQ0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACpInSNoJHVEQFmZjgADqSadhN23HUVDbXdtfQ+daXEU8WSN8ThhkdRkVNVOLWjBNNXRFNdW1u8STzxxPM+yNXcAscZwM9TUtcr4l1KylvNIhjuoHkXUIDIiyDKhs4z9ciurqIu8mhRmpNrtsFFFFWVcKKKCQASTgDqTRuDdlqFFV7W/s77f9ku4J9hw3kyBtp98E4qxTcWtGSpRkrp3CiiikUFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAGfrms23h/SJ9Suw5ihA+VBlmJOABXGeGvileax4gSyuNDmit52AjkiBcp7v87I7nt+lbs80mueJpLF7ZZ9P05kModcxl2QnEnZuo2p9XPRaoeB/E/9bWsapayWNrZ+QqmGKOMK4jLMFV8d8KOmOQR6Clyv4jGVVxlZHTeINIi1vSLmzmDkvG4Ty2KncUIHTryRweOK83GoeJND03RNGhWeW4eXyxPcxv9qOws0oKk/Oo2rgg9H/EnvPG3iDTZ9SstRvBFPp959mgvY7NWSfIdsyLkEAbQuV7nPOMVZk+IM93Z+GrqytvOu9SkmSSCFwUdlXgAnBwWwOnSp5r9TepT1VnuaM3i3UrrUrDR7LTf7PvLyKSQyX2XWAKWADKuCxIAOMrWToHjjxJrOofYotKgmkiwZpvLkiSIsisqyE5CHJPGWP6Z19U0/xBLeabr9pBYf2pBDJBPaSTN5W1zkBXwDkYHbB5ql4fXWNCvdfkntIrwNcxvPFY8eSrKcyIrcuSxJKg9M+mCHLrcuVP3737HeDdtGQM9/SiuP8Ahpeajf8 hM90uwy53KM/dyeePTtiuwpI2i7q5m+IdX/sLQbzUhCZmgTKoO7EgDPtkjNebf8ACd6/f+FLvVreU29yt3HEqPauI2DRF8KTwyg/xcHqOfvV6TrElnFpF1LfxrJaRoXlRkDBgvOCDx2rgrfxnba9bNo2reHZ7COYCOOOVTIis0TSFioUFVUAcjOM/DfSktTDEJ8ytKxV0jxzreg6Xp0mr2S3NhPBLILlU2vKyksWOD937wX5RwM9wK6/R9fvLnVZNK1Wyis73yFuYhFP5qvGSRg/KMEYOfqK5XSPF7a3a6PpWr6BJeQXXmKk8yDypFUMGcgqcAgNznAOOenmXW0rU9U8STayulQ2k9xYL9kg1FfN8gRs3meXsO3c2cZyRwvHXC5rE009IuX3b/AC39TkfFfxF8QWeqarBZSxw20EogikEGdrLId4ctwSVAUY6DJrpfD3jvXte0G81GTSktEt/MkWWRP3coWMkhVzvXDDrnnI7GuY1vx7ea8vky6Xp9ve200E9u67m**3A29W5I6NjgYyOasvY+MfGfhpNMsLSz0yG0leW6DStCJ3LkgAHcwG4buRzlcZwTRzN7Ezc+dODun+Xod/w4UEnoRRSKyuodWDKwyCDkEUAnJBAx2PrTsR7Tz6C0UUUiwooooAKKKKACiiigCgukWaa1Jq4VvtckCwElvlABz09ff2FV9fvvM8MaxcaXcK8sEUieZC+7ZIoORkd1yOPrWjdyyx2szwQPPKiErErKpdscAE8Ams/R4LySyuV1XTYLKa5kZpI4pPMRwwClmOBkkAjvxjNSzGWi5YnAfDK61PUvDWpwW99btdrdRytLdAs6x7w7sTks7FQyqMdcCuv8AFvhL/hK0tLeW+eCzikEk0SAkuR07gcZ7itfTNJ0/RrVbbT7SG3iXskinP1PUnpVyjlWwqlPmqN9DmpPArPqkE/8Abr/Yra6juILPyv3cOxidgG7n69jyeoq9b+EdPi0fUtLuC89tqEzzSlsKwY+jDuCByfT3NblFLlQ40oxZgeEfDFv4T0h7GCeSdpZjM8jgDc2APu844Uf/AFsc79FFNKxo9WZWsaBYa/ay2t9GWhlKElDgqVycg/8AfX4iuO8Y+CLiS+0aTwxbQ2XlyO8ssKKux1iPlluu7HGB68f3cej0UmjKpSjNOLPn/AMAMah4x1Xxlb2+p6jPFcWUxeWOYhYmVXCsAnRvlZvlHUnr97Htut+H7PWIIna2tzexSpLFPInKMMAnjkjGQATwDxWHpnhO6vPEN1rnidLee82rFaLAfkiVSWyP7p9OpyTnnGO5pJW3FRhKMOWWvrsYureGdP1fSLjTrgNsuXjkkkyCwdNuzBPvGpI9Pqcz6Doi6Hp8doLuW6dEEfnSqqnaCTgADpliSevNa1FOxvZXCiiigYUUUUAFFFFABBRQeeM496ACiuD1PxRr39v32nWWpeH7S2tzGEfULg+YxZQTwGHf/AGfTntXRaFfzz2KDUb+xlvXyR9kb5GHqoPOfYg/gRSUrkTqRi7PfyNyimRzRzAmORHCkqSjA4PofemtdW6TiB7iJZT0jLgMfw607lrXYloo60UDCiiigA/Gj8aCQBk9PWozcwC4EBniE7DKxlwGI9cdadhNpbiuXWNmRDI4BKoCBuPpn3rlbPxNrkHiCwsNa0m2toL8uIZIpt7KQpPIyRjoMHHXr2rrbidLW3lnkzsjUs2Bk8VxP8AwlOm6pdx6pqGiXSWlmXMM0rNlMghmePGMADPGeD1HGE7GVaSWraWp3VFNDqyBlYMpGQwOQaYbmBZREZo/NPSPeNx/DrTvY2XvLQmopBnsM0uOefpQMWiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD//Z" class="logo-img" alt="Logo Transpetro">
+                <img src="data:image/png;base64,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" class="logo-img" alt="Logo Transpetro">
             </td>
-            <td style="width: 50%; font-size: 12px; font-weight: bold; text-align: center; text-transform: uppercase;">
+            <td style="width: 50%; font-size: 12.5px; font-weight: bold; text-align: center; text-transform: uppercase;">
                 LISTA DE VERIFICAÇÃO PERIÓDICA<br>ÁREA DE QUÍMICOS
             </td>
             <td style="width: 25%; font-size: 10px; text-align: left;">
@@ -116,7 +78,6 @@
                 Formulário Oficial de Inspeção e Controle de SST e Armazenagem
             </td>
         </tr>
-
         <tr>
             <td colspan="3" class="section-title">1. IDENTIFICAÇÃO</td>
         </tr>
@@ -144,7 +105,9 @@
                 <span class="print-text" id="p-data"></span>
             </td>
         </tr>
+    </table>
 
+    <table class="checklist-table">
         <tr>
             <td colspan="3" class="section-title">2. VERIFICAÇÃO DE FDS - PRODUTOS QUÍMICOS</td>
         </tr>
@@ -245,7 +208,7 @@
         <tr>
             <td class="col-item">-</td>
             <td class="col-pergunta">
-                Há cilindros para gases na sua área de armazenamento? (Ainda que o material não seja de estoque)
+                Há cilindros para gases na sua área de armazenamento? (Ainda que não seja de estoque)
                 <span class="hint">Se 'SIM', o cilindro está com FDS? Qual produto/setor/cor/validade?</span>
             </td>
             <td class="col-resposta">
@@ -257,7 +220,9 @@
                 <span class="print-text" id="p-detalhe_cilindro"></span>
             </td>
         </tr>
+    </table>
 
+    <table class="checklist-table">
         <tr>
             <td colspan="3" class="section-title">3. INFRAESTRUTURA</td>
         </tr>
@@ -323,7 +288,9 @@
                 <span class="print-text" id="p-sinalizacao_piso"></span>
             </td>
         </tr>
+    </table>
 
+    <table class="checklist-table">
         <tr>
             <td colspan="3" class="section-title">4. ORGANIZAÇÃO – SEGURANÇA</td>
         </tr>
@@ -380,14 +347,16 @@
                 <span class="print-text" id="p-placas" style="white-space: pre-wrap;"></span>
             </td>
         </tr>
+    </table>
 
+    <table class="checklist-table">
         <tr>
             <td colspan="3" class="section-title">5. ASSINATURA E REGISTRO</td>
         </tr>
         <tr>
-            <td><b>Responsável Técnico:</b></td>
-            <td colspan="2">
-                <div id="p-identificacao-rodape" style="font-weight: bold; margin-bottom: 4px; font-size: 10.5px; text-transform: uppercase;">
+            <td style="width: 25%;"><b>Responsável Técnico:</b></td>
+            <td colspan="2" style="width: 75%;">
+                <div id="p-identificacao-rodape" style="font-weight: bold; margin-bottom: 5px; font-size: 10px; text-transform: uppercase;">
                     CONFERIDO POR: DARIO JOÃO TORRES — ALMOXARIFE — MATRÍCULA: 72976532 — ARMAZÉM: T036
                 </div>
                 <div class="signature-box">
@@ -404,13 +373,13 @@
 </div>
 
 <script>
-    // 1. Data Vigente Automática
+    // 1. Data do Dia Automática
     const hoje = new Date();
     document.getElementById('data-atual').value = hoje.toLocaleDateString('pt-BR');
 
-    // 2. Inicialização Controle de Traço da Assinatura Digital
+    // 2. Setup do Painel de Assinatura Digital
     const canvas = document.getElementById('signature-pad');
-    const signaturePad = new SignaturePad(canvas, { minWidth: 1.8, maxWidth: 4.0, penColor: "black" });
+    const signaturePad = new SignaturePad(canvas, { minWidth: 1.5, maxWidth: 3.5, penColor: "black" });
 
     function resizeCanvas() {
         const ratio = Math.max(window.devicePixelRatio || 1, 1);
@@ -424,7 +393,7 @@
 
     document.getElementById('clear-btn').addEventListener('click', () => signaturePad.clear());
 
-    // 3. Mapeia os dados dinâmicos para Texto Limpo
+    // 3. Converte os inputs ativos em texto estático formatado para o PDF [ X ]
     function processarTextosImpressao() {
         const nomeDigitado = document.getElementById('nome').value;
         const matriculaDigitada = document.getElementById('matricula').value;
@@ -470,10 +439,10 @@
                                                          "\nVisíveis: " + (obterRadio('placas_visiveis') === "Sim" ? "( X ) Sim  (   ) Não" : "(   ) Sim  ( X ) Não");
     }
 
-    // 4. Geração do PDF
+    // 4. Mecanismo de Renderização e Download do PDF
     document.getElementById('generate-pdf-btn').addEventListener('click', async () => {
         if (signaturePad.isEmpty()) {
-            alert("Erro: Assine o documento antes de gerar o PDF!");
+            alert("Atenção: A assinatura do almoxarife é obrigatória antes de exportar o PDF!");
             return;
         }
 
@@ -485,25 +454,25 @@
         botaoSubmit.style.display = 'none';
 
         const larguraOriginal = container.style.width;
-        container.style.width = "820px";
+        container.style.width = "830px";
 
         try {
             const canvasRender = await html2canvas(container, {
-                scale: 2.5,
+                scale: 2.2,
                 useCORS: true,
                 logging: false,
                 backgroundColor: '#ffffff'
             });
 
-            const imgData = canvasRender.toDataURL('image/jpeg', 1.0);
+            const imgData = canvasRender.toDataURL('image/jpeg', 0.95);
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF('p', 'mm', 'a4');
             
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = pdf.internal.pageSize.getHeight();
             
-            const margemX = 4;
-            const margemY = 4;
+            const margemX = 5;
+            const margemY = 5;
             const larguraUtil = pdfWidth - (margemX * 2);
             const alturaUtil = pdfHeight - (margemY * 2);
 
@@ -513,8 +482,8 @@
             pdf.save(`Lista_Verificacao_T036_${dataNome}.pdf`);
 
         } catch (erro) {
-            console.error("Erro na geração do PDF:", erro);
-            alert("Ocorreu um erro ao processar o arquivo. Tente novamente.");
+            console.error("Falha no processamento do documento html2canvas:", erro);
+            alert("Houve um problema ao gerar seu PDF. Por favor, tente novamente.");
         } finally {
             container.style.width = larguraOriginal;
             container.classList.remove('pdf-mode');
