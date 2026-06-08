@@ -2,55 +2,493 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Verificação Periódica - Área de Químicos</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
     <style>
-        /* Mantenha aqui o seu estilo original. Adicionei apenas o estilo do logo */
-        .logo-img { max-width: 200px; height: auto; display: block; margin: 0 auto; }
-        .btn-submit { background: #008751; color: white; padding: 15px; width: 100%; border: none; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 20px; }
-        .signature-box { border: 1px solid #ccc; height: 100px; width: 100%; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 10px; background-color: #f4f4f9; color: #000; }
+        .container { max-width: 850px; margin: auto; background: white; padding: 15px; box-sizing: border-box; border-radius: 4px; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: relative; }
+        
+        /* Fundo com marca d'água corporativa sutil */
+        .watermark-bg { position: absolute; top: 280px; left: 15%; width: 70%; opacity: 0.03; pointer-events: none; z-index: 0; }
+        
+        /* Tabelas e Proporções das Colunas Ajustadas */
+        .checklist-table { width: 100%; border-collapse: collapse; font-size: 11px; color: #000; position: relative; z-index: 1; background: rgba(255, 255, 255, 0.9); margin-bottom: 10px; }
+        .checklist-table th, .checklist-table td { border: 1px solid #000; padding: 6px 8px; vertical-align: middle; }
+        
+        .section-title { background-color: #008751; color: white; font-weight: bold; text-transform: uppercase; font-size: 11.5px; }
+        .header-cell { font-weight: bold; text-align: center; background-color: #f2f2f2; }
+        
+        /* Proporção perfeita solicitada: Campo de pergunta menor, resposta maior */
+        .col-item { width: 6%; text-align: center; font-weight: bold; }
+        .col-pergunta { width: 44%; } 
+        .col-resposta { width: 50%; }
+
+        .logo-img { max-width: 170px; height: auto; display: block; margin: 0 auto; }
+        
+        /* Elementos de Formulário */
+        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 5px; box-sizing: border-box; border: 1px solid #a6a6a6; border-radius: 3px; font-size: 11.5px; font-family: Arial, sans-serif; }
+        textarea { resize: none; height: 42px; }
+        
+        .radio-group { display: flex; gap: 14px; }
+        .radio-group label { font-weight: normal; cursor: pointer; display: flex; align-items: center; gap: 3px; }
+        .checkbox-group label { display: block; margin-bottom: 3px; font-weight: normal; cursor: pointer; }
+        .hint { font-size: 9.5px; color: #444; font-style: italic; display: block; margin-top: 2px; font-weight: normal; line-height: 1.2; }
+        
+        /* Quadro de Assinatura Digital */
+        .signature-box { border: 1px dashed #008751; background: #fafafa; width: 100%; height: 80px; box-sizing: border-box; touch-action: none; position: relative; }
+        canvas { width: 100%; height: 100%; cursor: crosshair; }
+        
+        /* Botões */
+        .btn-clear { background: #ff3333; color: white; border: none; padding: 4px 10px; font-size: 10px; cursor: pointer; border-radius: 3px; font-weight: bold; margin-top: 3px; }
+        .btn-submit { background: #008751; color: white; border: none; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; border-radius: 4px; margin-top: 15px; box-shadow: 0 3px 5px rgba(0,0,0,0.15); }
+        .btn-submit:hover { background: #006e41; }
+
+        /* Estilização Exclusiva de Impressão de PDF */
+        .print-text { display: none; font-weight: normal; }
+        .pdf-mode input, .pdf-mode select, .pdf-mode textarea, .pdf-mode .radio-group, .pdf-mode .checkbox-group, .pdf-mode .btn-clear { display: none !important; }
+        .pdf-mode .print-text { display: inline-block !important; }
+        .pdf-mode .signature-box { border: 1px solid #000 !important; background: transparent !important; }
+        .pdf-mode .checklist-table { background: transparent !important; }
+        .pdf-mode .watermark-bg { opacity: 0.05 !important; }
     </style>
 </head>
 <body>
 
-<div id="form-container">
-    <table border="1" style="width: 100%; border-collapse: collapse;">
+<div class="container" id="form-container">
+    <img src="data:image/png;base64,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" class="watermark-bg" alt="Marca d'água">
+
+    <table class="checklist-table">
         <tr>
-            <td style="width: 25%; text-align: center; padding: 10px;">
-                <img src="transpetro_h-RGB.jpg" alt="Logo Transpetro" class="logo-img">
+            <td rowspan="2" style="width: 25%; text-align: center;">
+                <img src="data:image/png;base64,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" class="logo-img" alt="Logo Transpetro">
             </td>
-            <td style="text-align: center;">
-                <h2>LISTA DE VERIFICAÇÃO PERIÓDICA - ÁREA DE QUÍMICOS</h2>
+            <td style="width: 50%; font-size: 12.5px; font-weight: bold; text-align: center; text-transform: uppercase;">
+                LISTA DE VERIFICAÇÃO PERIÓDICA<br>ÁREA DE QUÍMICOS
+            </td>
+            <td style="width: 25%; font-size: 10px; text-align: left;">
+                <b>Revisão:</b> Junho/2026<br>
+                <b>Uso:</b> INTERNA Força de Trabalho
             </td>
         </tr>
-        </table>
+        <tr>
+            <td colspan="2" style="font-size: 10px; text-align: center;" class="header-cell">
+                Formulário Oficial de Inspeção e Controle de SST e Armazenagem
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" class="section-title">1. IDENTIFICAÇÃO</td>
+        </tr>
+        <tr>
+            <td><b>Responsável / Almoxarife:</b></td>
+            <td>
+                <input type="text" id="nome" value="Dario João Torres">
+                <span class="print-text" id="p-nome"></span>
+            </td>
+            <td>
+                <b>Matrícula:</b> 
+                <input type="text" id="matricula" value="72976532">
+                <span class="print-text" id="p-matricula"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><b>Armazém:</b></td>
+            <td>
+                <input type="text" id="armazem" value="T036">
+                <span class="print-text" id="p-armazem"></span>
+            </td>
+            <td>
+                <b>Data:</b> 
+                <input type="text" id="data-atual">
+                <span class="print-text" id="p-data"></span>
+            </td>
+        </tr>
+    </table>
 
-    <h3>Assinatura Digital</h3>
-    <div class="signature-box">
-        <canvas id="signature-canvas"></canvas>
-    </div>
-    <button type="button" onclick="signaturePad.clear()">Limpar Assinatura</button>
+    <table class="checklist-table">
+        <tr>
+            <td colspan="3" class="section-title">2. VERIFICAÇÃO DE FDS - PRODUTOS QUÍMICOS</td>
+        </tr>
+        <tr>
+            <td class="header-cell col-item">ITEM</td>
+            <td class="header-cell col-pergunta">VERIFICAÇÃO</td>
+            <td class="header-cell col-resposta">RESPOSTA / REGISTRO</td>
+        </tr>
+        <tr>
+            <td class="col-item">1</td>
+            <td class="col-pergunta">
+                Quantos produtos químicos há listado no estoque?
+                <span class="hint">Dica: Transação MB52 filtrando pelos grupos: 6810, 7920, 4310, 9152, 6630, 9153, 9151, 9135.</span>
+            </td>
+            <td class="col-resposta">
+                <input type="number" id="qtd_estoque" value="13">
+                <span class="print-text" id="p-qtd_estoque"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-item">2</td>
+            <td class="col-pergunta">Quantas FDS estão disponíveis no estoque?</td>
+            <td class="col-resposta">
+                <input type="number" id="qtd_fds" value="13">
+                <span class="print-text" id="p-qtd_fds"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-item">2a</td>
+            <td class="col-pergunta">Falta alguma FDS?</td>
+            <td class="col-resposta">
+                <div class="radio-group">
+                    <label><input type="radio" name="falta_fds" value="Sim"> Sim</label>
+                    <label><input type="radio" name="falta_fds" value="Não" checked> Não</label>
+                </div>
+                <span class="print-text" id="p-falta_fds"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-item">2b</td>
+            <td class="col-pergunta">
+                Alguma FDS com nome antigo de FISPQ?
+                <span class="hint">Verificar se existem documentos identificados como FISPQ em vez de FDS.</span>
+            </td>
+            <td class="col-resposta">
+                <div class="radio-group">
+                    <label><input type="radio" name="nome_fispq" value="Sim"> Sim</label>
+                    <label><input type="radio" name="nome_fispq" value="Não" checked> Não</label>
+                </div>
+                <span class="print-text" id="p-nome_fispq"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-item">-</td>
+            <td class="col-pergunta">Quais NM'S das FDS que faltam ou precisam ser impressas novamente? (Se houver)</td>
+            <td class="col-resposta">
+                <input type="text" id="nms_faltantes" placeholder="Nenhum">
+                <span class="print-text" id="p-nms_faltantes"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-item">3</td>
+            <td class="col-pergunta">
+                Estado de conservação do documento: Alguma FDS está rasurada, ilegível ou incompleta?
+                <span class="hint">(Verificar se as folhas não estão manchadas ou apagadas)</span>
+            </td>
+            <td class="col-resposta">
+                <div class="radio-group">
+                    <label><input type="radio" name="fds_rasurada" value="Sim"> Sim</label>
+                    <label><input type="radio" name="fds_rasurada" value="Não" checked> Não</label>
+                </div>
+                <span class="print-text" id="p-fds_rasurada"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-item">4</td>
+            <td class="col-pergunta">Há algum NM com fabricante/marca/tipo diferentes em estoque?</td>
+            <td class="col-resposta">
+                <div class="radio-group">
+                    <label><input type="radio" name="fabricante_dif" value="Sim" checked> Sim</label>
+                    <label><input type="radio" name="fabricante_dif" value="Não"> Não</label>
+                </div>
+                <span class="print-text" id="p-fabricante_dif"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-item">5</td>
+            <td class="col-pergunta">Se SIM, cada Fabricante/Marca possui sua FDS disponibilizada? Quais os NM's desses produtos?</td>
+            <td class="col-resposta">
+                <div class="radio-group" style="margin-bottom:5px;">
+                    <label><input type="radio" name="fabricante_fds_ok" value="Sim" checked> Sim</label>
+                    <label><input type="radio" name="fabricante_fds_ok" value="Não"> Não</label>
+                </div>
+                <textarea id="nms_fabricantes">NM-469450, NM-339045, NM-585918, NM-589152</textarea>
+                <span class="print-text" id="p-nms_fabricantes"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-item">-</td>
+            <td class="col-pergunta">
+                Há cilindros para gases na sua área de armazenamento? (Ainda que não seja de estoque)
+                <span class="hint">Se 'SIM', o cilindro está com FDS? Qual produto/setor/cor/validade?</span>
+            </td>
+            <td class="col-resposta">
+                <div class="radio-group" style="margin-bottom:5px;">
+                    <label><input type="radio" name="cilindros" value="Sim" checked> Sim</label>
+                    <label><input type="radio" name="cilindros" value="Não"> Não</label>
+                </div>
+                <input type="text" id="detalhe_cilindro" value="NM-589152 Cilindro 0,9 litros aço carbono DUGOLD validade 01/01/2031">
+                <span class="print-text" id="p-detalhe_cilindro"></span>
+            </td>
+        </tr>
+    </table>
 
-    <button type="button" class="btn-submit" id="btn-gerar-pdf">Gerar e Guardar PDF</button>
+    <table class="checklist-table">
+        <tr>
+            <td colspan="3" class="section-title">3. INFRAESTRUTURA</td>
+        </tr>
+        <tr>
+            <td class="header-cell col-item">ITEM</td>
+            <td class="header-cell col-pergunta">VERIFICAÇÃO</td>
+            <td class="header-cell col-resposta">RESPOSTA / REGISTRO</td>
+        </tr>
+        <tr>
+            <td class="col-item">6</td>
+            <td class="col-pergunta">Os produtos químicos estão dispostos em qual tipo de armazenamento?</td>
+            <td class="col-resposta">
+                <select id="tipo_armazenamento">
+                    <option value="Container Corta Fogo com Contenção" selected>Container Corta Fogo com Contenção</option>
+                    <option value="Pátio cimentado com drenagem água/óleo">Pátio cimentado com drenagem água/óleo</option>
+                    <option value="Armazenamento em paletes com bacia de contenção">Armazenamento em paletes com bacia de contenção</option>
+                    <option value="Uso de bandejas de contenção individuais">Uso de bandejas de contenção individuais</option>
+                </select>
+                <span class="print-text" id="p-tipo_armazenamento"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-item">7</td>
+            <td class="col-pergunta">No caso de bacias, o piso / estrutura está íntegro? <span class="hint">(Deterioração = NÃO)</span></td>
+            <td class="col-resposta">
+                <div class="radio-group">
+                    <label><input type="radio" name="piso_integro" value="Sim" checked> Sim</label>
+                    <label><input type="radio" name="piso_integro" value="Não"> Não</label>
+                </div>
+                <span class="print-text" id="p-piso_integro"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-item">8</td>
+            <td class="col-pergunta">Iluminação da área verificada está funcionando corretamente?</td>
+            <td class="col-resposta">
+                <div class="radio-group">
+                    <label><input type="radio" name="iluminacao" value="Sim" checked> Sim</label>
+                    <label><input type="radio" name="iluminacao" value="Não"> Não</label>
+                </div>
+                <span class="print-text" id="p-iluminacao"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-item">9</td>
+            <td class="col-pergunta">O piso está regular para o tráfego de empilhadeiras e paleteiras?</td>
+            <td class="col-resposta">
+                <div class="radio-group">
+                    <label><input type="radio" name="piso_trafego" value="Sim" checked> Sim</label>
+                    <label><input type="radio" name="piso_trafego" value="Não"> Não</label>
+                </div>
+                <span class="print-text" id="p-piso_trafego"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-item">10</td>
+            <td class="col-pergunta">O piso possui sinalização / demarcação?</td>
+            <td class="col-resposta">
+                <div class="radio-group">
+                    <label><input type="radio" name="sinalizacao_piso" value="Sim" checked> Sim</label>
+                    <label><input type="radio" name="sinalizacao_piso" value="Não"> Não</label>
+                </div>
+                <span class="print-text" id="p-sinalizacao_piso"></span>
+            </td>
+        </tr>
+    </table>
+
+    <table class="checklist-table">
+        <tr>
+            <td colspan="3" class="section-title">4. ORGANIZAÇÃO – SEGURANÇA</td>
+        </tr>
+        <tr>
+            <td class="header-cell col-item">ITEM</td>
+            <td class="header-cell col-pergunta">VERIFICAÇÃO</td>
+            <td class="header-cell col-resposta">RESPOSTA / REGISTRO</td>
+        </tr>
+        <tr>
+            <td class="col-item">11</td>
+            <td class="col-pergunta">Verificação se os materiais estão dispostos de forma adequada: <span class="hint">(Marque se estiver ADEQUADO)</span></td>
+            <td class="col-resposta">
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="org_a" checked> a) Identificados (NM, Nome).</label>
+                    <label><input type="checkbox" id="org_b" checked> b) Empilhamento estável sem risco.</label>
+                    <label><input type="checkbox" id="org_c" checked> c) Paletes em bom estado / íntegros.</label>
+                    <label><input type="checkbox" id="org_d" checked> d) Não bloqueia rota de fuga.</label>
+                    <label><input type="checkbox" id="org_e" checked> e) Corredores desobstruídos.</label>
+                </div>
+                <span class="print-text" id="p-org_lista" style="white-space: pre-wrap;"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-item">12</td>
+            <td class="col-pergunta">a) Os extintores de incêndio estão dentro da validade?<br>b) Há algum empecilho para chegar aos extintores?</td>
+            <td class="col-resposta">
+                <b>Validade:</b>
+                <div class="radio-group" style="margin-bottom: 3px;">
+                    <label><input type="radio" name="extintor_validade" value="Sim" checked> Sim</label>
+                    <label><input type="radio" name="extintor_validade" value="Não"> Não</label>
+                </div>
+                <b>Empecilho:</b>
+                <div class="radio-group">
+                    <label><input type="radio" name="extintor_obstruido" value="Sim"> Sim</label>
+                    <label><input type="radio" name="extintor_obstruido" value="Não" checked> Não</label>
+                </div>
+                <span class="print-text" id="p-extintores" style="white-space: pre-wrap;"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-item">13</td>
+            <td class="col-pergunta">a) O local possui placas de sinalização apontando saídas de emergência?<br>b) Se SIM, elas estão visíveis? (Sem bloqueios)</td>
+            <td class="col-resposta">
+                <b>Possui:</b>
+                <div class="radio-group" style="margin-bottom: 3px;">
+                    <label><input type="radio" name="placas_saida" value="Sim" checked> Sim</label>
+                    <label><input type="radio" name="placas_saida" value="Não"> Não</label>
+                </div>
+                <b>Visíveis:</b>
+                <div class="radio-group">
+                    <label><input type="radio" name="placas_visiveis" value="Sim" checked> Sim</label>
+                    <label><input type="radio" name="placas_visiveis" value="Não"> Não</label>
+                </div>
+                <span class="print-text" id="p-placas" style="white-space: pre-wrap;"></span>
+            </td>
+        </tr>
+    </table>
+
+    <table class="checklist-table">
+        <tr>
+            <td colspan="3" class="section-title">5. ASSINATURA E REGISTRO</td>
+        </tr>
+        <tr>
+            <td style="width: 25%;"><b>Responsável Técnico:</b></td>
+            <td colspan="2" style="width: 75%;">
+                <div id="p-identificacao-rodape" style="font-weight: bold; margin-bottom: 5px; font-size: 10px; text-transform: uppercase;">
+                    CONFERIDO POR: DARIO JOÃO TORRES — ALMOXARIFE — MATRÍCULA: 72976532 — ARMAZÉM: T036
+                </div>
+                <div class="signature-box">
+                    <canvas id="signature-pad"></canvas>
+                </div>
+                <div style="text-align: right;">
+                    <button type="button" class="btn-clear" id="clear-btn">Limpar Campo</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <button type="button" class="btn-submit" id="generate-pdf-btn">GERAR PDF IMPRESSO OFICIAL</button>
 </div>
 
 <script>
-    const canvas = document.getElementById('signature-canvas');
-    const signaturePad = new SignaturePad(canvas);
+    // 1. Data do Dia Automática
+    const hoje = new Date();
+    document.getElementById('data-atual').value = hoje.toLocaleDateString('pt-BR');
 
-    document.getElementById('btn-gerar-pdf').addEventListener('click', () => {
-        const { jsPDF } = window.jspdf;
-        html2canvas(document.getElementById('form-container')).then(canvas => {
-            const imgData = canvas.toDataURL('image/png');
+    // 2. Setup do Painel de Assinatura Digital
+    const canvas = document.getElementById('signature-pad');
+    const signaturePad = new SignaturePad(canvas, { minWidth: 1.5, maxWidth: 3.5, penColor: "black" });
+
+    function resizeCanvas() {
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+        signaturePad.clear();
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    document.getElementById('clear-btn').addEventListener('click', () => signaturePad.clear());
+
+    // 3. Converte os inputs ativos em texto estático formatado para o PDF [ X ]
+    function processarTextosImpressao() {
+        const nomeDigitado = document.getElementById('nome').value;
+        const matriculaDigitada = document.getElementById('matricula').value;
+        const armazemDigitado = document.getElementById('armazem').value;
+
+        document.getElementById('p-identificacao-rodape').innerText = `CONFERIDO POR: ${nomeDigitado} — ALMOXARIFE — MATRÍCULA: ${matriculaDigitada} — ARMAZÉM: ${armazemDigitado}`;
+
+        document.getElementById('p-nome').innerText = nomeDigitado;
+        document.getElementById('p-matricula').innerText = matriculaDigitada;
+        document.getElementById('p-armazem').innerText = armazemDigitado;
+        document.getElementById('p-data').innerText = document.getElementById('data-atual').value;
+        
+        document.getElementById('p-qtd_estoque').innerText = document.getElementById('qtd_estoque').value;
+        document.getElementById('p-qtd_fds').innerText = document.getElementById('qtd_fds').value;
+        document.getElementById('p-nms_faltantes').innerText = document.getElementById('nms_faltantes').value || "Nenhum";
+        document.getElementById('p-nms_fabricantes').innerText = document.getElementById('nms_fabricantes').value;
+        document.getElementById('p-detalhe_cilindro').innerText = document.getElementById('detalhe_cilindro').value;
+        
+        const sel = document.getElementById('tipo_armazenamento');
+        document.getElementById('p-tipo_armazenamento').innerText = sel.options[sel.selectedIndex].text;
+
+        const obterRadio = (nome) => document.querySelector(`input[name="${nome}"]:checked`).value;
+        document.getElementById('p-falta_fds').innerText = obterRadio('falta_fds') === "Sim" ? "( X ) Sim   (   ) Não" : "(   ) Sim   ( X ) Não";
+        document.getElementById('p-nome_fispq').innerText = obterRadio('nome_fispq') === "Sim" ? "( X ) Sim   (   ) Não" : "(   ) Sim   ( X ) Não";
+        document.getElementById('p-fds_rasurada').innerText = obterRadio('fds_rasurada') === "Sim" ? "( X ) Sim   (   ) Não" : "(   ) Sim   ( X ) Não";
+        document.getElementById('p-fabricante_dif').innerText = obterRadio('fabricante_dif') === "Sim" ? "( X ) Sim   (   ) Não" : "(   ) Sim   ( X ) Não";
+        document.getElementById('p-piso_integro').innerText = obterRadio('piso_integro') === "Sim" ? "( X ) Sim   (   ) Não" : "(   ) Sim   ( X ) Não";
+        document.getElementById('p-iluminacao').innerText = obterRadio('iluminacao') === "Sim" ? "( X ) Sim   (   ) Não" : "(   ) Sim   ( X ) Não";
+        document.getElementById('p-piso_trafego').innerText = obterRadio('piso_trafego') === "Sim" ? "( X ) Sim   (   ) Não" : "(   ) Sim   ( X ) Não";
+        document.getElementById('p-sinalizacao_piso').innerText = obterRadio('sinalizacao_piso') === "Sim" ? "( X ) Sim   (   ) Não" : "(   ) Sim   ( X ) Não";
+
+        let orgTexto = "";
+        orgTexto += (document.getElementById('org_a').checked ? "X" : " ") + " a) Identificados.  ";
+        orgTexto += (document.getElementById('org_b').checked ? "X" : " ") + " b) Estável.\n";
+        orgTexto += (document.getElementById('org_c').checked ? "X" : " ") + " c) Paletes Bons.  ";
+        orgTexto += (document.getElementById('org_d').checked ? "X" : " ") + " d) Rota Livre.\n";
+        orgTexto += (document.getElementById('org_e').checked ? "X" : " ") + " e) Corredores Livres.";
+        document.getElementById('p-org_lista').innerText = orgTexto;
+
+        document.getElementById('p-extintores').innerText = "Validade: " + (obterRadio('extintor_validade') === "Sim" ? "( X ) Sim  (   ) Não" : "(   ) Sim  ( X ) Não") + 
+                                                            "\nEmpecilho: " + (obterRadio('extintor_obstruido') === "Sim" ? "( X ) Sim  (   ) Não" : "(   ) Sim  ( X ) Não");
+        document.getElementById('p-placas').innerText = "Possui: " + (obterRadio('placas_saida') === "Sim" ? "( X ) Sim  (   ) Não" : "(   ) Sim  ( X ) Não") + 
+                                                         "\nVisíveis: " + (obterRadio('placas_visiveis') === "Sim" ? "( X ) Sim  (   ) Não" : "(   ) Sim  ( X ) Não");
+    }
+
+    // 4. Mecanismo de Renderização e Download do PDF
+    document.getElementById('generate-pdf-btn').addEventListener('click', async () => {
+        if (signaturePad.isEmpty()) {
+            alert("Atenção: A assinatura do almoxarife é obrigatória antes de exportar o PDF!");
+            return;
+        }
+
+        const container = document.getElementById('form-container');
+        const botaoSubmit = document.getElementById('generate-pdf-btn');
+
+        processarTextosImpressao();
+        container.classList.add('pdf-mode');
+        botaoSubmit.style.display = 'none';
+
+        const larguraOriginal = container.style.width;
+        container.style.width = "830px";
+
+        try {
+            const canvasRender = await html2canvas(container, {
+                scale: 2.2,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff'
+            });
+
+            const imgData = canvasRender.toDataURL('image/jpeg', 0.95);
+            const { jsPDF } = window.jspdf;
             const pdf = new jsPDF('p', 'mm', 'a4');
-            const imgProps = pdf.getImageProperties(imgData);
+            
             const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save("Lista_Verificacao_T036.pdf");
-        });
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            
+            const margemX = 5;
+            const margemY = 5;
+            const larguraUtil = pdfWidth - (margemX * 2);
+            const alturaUtil = pdfHeight - (margemY * 2);
+
+            pdf.addImage(imgData, 'JPEG', margemX, margemY, larguraUtil, alturaUtil);
+
+            const dataNome = document.getElementById('data-atual').value.replace(/\//g, '-');
+            pdf.save(`Lista_Verificacao_T036_${dataNome}.pdf`);
+
+        } catch (erro) {
+            console.error("Falha no processamento do documento html2canvas:", erro);
+            alert("Houve um problema ao gerar seu PDF. Por favor, tente novamente.");
+        } finally {
+            container.style.width = larguraOriginal;
+            container.classList.remove('pdf-mode');
+            botaoSubmit.style.display = 'block';
+        }
     });
 </script>
 
