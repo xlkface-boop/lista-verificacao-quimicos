@@ -379,7 +379,7 @@
 
     // 2. Setup do Painel de Assinatura Digital
     const canvas = document.getElementById('signature-pad');
-    const signaturePad = new SignaturePad(canvas, { minWidth: 1.5, maxWidth: 3.5, penColor: "black" });
+    const signaturePad = new SignaturePad(canvas, { minWidth: 0.5, maxWidth: 1.5, penColor: "black" });
 
     function resizeCanvas() {
         const ratio = Math.max(window.devicePixelRatio || 1, 1);
@@ -458,7 +458,7 @@
 
         try {
             const canvasRender = await html2canvas(container, {
-                scale: 2.2,
+                scale: 3.5,
                 useCORS: true,
                 logging: false,
                 backgroundColor: '#ffffff'
