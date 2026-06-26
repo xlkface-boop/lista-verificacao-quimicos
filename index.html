@@ -3,291 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Listas de Verificação</title>
+    <title>Lista de Verificação Periódica - Área de Químicos</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f9; color: #000; }
-        
-        /* Painel de Seleção de Documentos (Ícones/Abas) */
-        .menu-container { max-width: 850px; margin: 0 auto 25px auto; display: flex; gap: 15px; justify-content: center; }
-        .menu-btn { flex: 1; background: #ffffff; border: 2px solid #a6a6a6; padding: 15px; text-align: center; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13.5px; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .menu-btn:hover { border-color: #008751; background: #f0fdf4; }
-        .menu-btn.active { background: #008751; color: white; border-color: #006e41; box-shadow: 0 4px 6px rgba(0,0,0,0.15); }
-        .menu-btn .icon { font-size: 24px; display: block; margin-bottom: 5px; }
-
-        /* Containers dos Documentos (Invisíveis por padrão) */
-        .doc-section { display: none; }
-        .doc-section.active { display: block; }
-
+        body { font-family: Arial, sans-serif; margin: 0; padding: 10px; background-color: #f4f4f9; color: #000; }
         .container { max-width: 850px; margin: auto; background: white; padding: 15px; box-sizing: border-box; border-radius: 4px; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: relative; }
+        
+        /* Fundo com marca d'água corporativa sutil */
         .watermark-bg { position: absolute; top: 280px; left: 15%; width: 70%; opacity: 0.03; pointer-events: none; z-index: 0; }
         
-        /* Tabelas e Estilos Compartilhados */
+        /* Tabelas e Proporções das Colunas Ajustadas para Layout sem Quebra Escopo A4 */
         .checklist-table { width: 100%; border-collapse: collapse; font-size: 11px; color: #000; position: relative; z-index: 1; background: rgba(255, 255, 255, 0.9); margin-bottom: 10px; }
         .checklist-table th, .checklist-table td { border: 1px solid #000; padding: 6px 8px; vertical-align: middle; }
         
         .section-title { background-color: #008751; color: white; font-weight: bold; text-transform: uppercase; font-size: 11.5px; }
         .header-cell { font-weight: bold; text-align: center; background-color: #f2f2f2; }
         
-        /* Colunas Doc 1 */
         .col-item { width: 6%; text-align: center; font-weight: bold; }
         .col-pergunta { width: 44%; } 
         .col-resposta { width: 50%; }
 
-        /* Colunas Doc 2 */
-        .col-num { width: 5%; text-align: center; font-weight: bold; }
-        .col-item-verif { width: 50%; }
-        .col-constatacao { width: 30%; }
-        .col-options { width: 5%; text-align: center; }
-
         .logo-img { max-width: 170px; height: auto; display: block; margin: 0 auto; }
         
+        /* Elementos de Formulário Modificados para Entrada Limpa */
         input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 5px; box-sizing: border-box; border: 1px solid #a6a6a6; border-radius: 3px; font-size: 11.5px; font-family: Arial, sans-serif; }
         textarea { resize: none; height: 42px; }
         
         .radio-group { display: flex; gap: 14px; }
         .radio-group label { font-weight: normal; cursor: pointer; display: flex; align-items: center; gap: 3px; }
+        .checkbox-group label { display: block; margin-bottom: 3px; font-weight: normal; cursor: pointer; }
         .hint { font-size: 9.5px; color: #444; font-style: italic; display: block; margin-top: 2px; font-weight: normal; line-height: 1.2; }
         
+        /* Quadro de Assinatura Digital Otimizado */
         .signature-box { border: 1px dashed #008751; background: #fafafa; width: 100%; height: 80px; box-sizing: border-box; touch-action: none; position: relative; }
         canvas { width: 100%; height: 100%; cursor: crosshair; }
         
+        /* Botões operacionais */
         .btn-clear { background: #ff3333; color: white; border: none; padding: 4px 10px; font-size: 10px; cursor: pointer; border-radius: 3px; font-weight: bold; margin-top: 3px; }
-        .btn-submit { background: #008751; color: white; border: none; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; border-radius: 4px; margin-top: 15px; box-shadow: 0 3px 5px rgba(0,0,0,0.15); width: 100%; }
+        .btn-submit { background: #008751; color: white; border: none; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; border-radius: 4px; margin-top: 15px; box-shadow: 0 3px 5px rgba(0,0,0,0.15); }
         .btn-submit:hover { background: #006e41; }
 
-        /* Impressão Limpa do PDF */
-        .print-text { display: none; font-weight: normal; }
-        .pdf-mode input, .pdf-mode select, .pdf-mode textarea, .pdf-mode .radio-group, .pdf-mode .btn-clear, .pdf-mode .btn-submit { display: none !important; }
+        /* Estilização Exclusiva de Impressão de PDF para Evitar Distorções de Inputs */
+        .print-text { display: none; font-weight: normal; white-space: pre-wrap; word-break: break-all; }
+        .pdf-mode input, .pdf-mode select, .pdf-mode textarea, .pdf-mode .radio-group, .pdf-mode .checkbox-group, .pdf-mode .btn-clear, .pdf-mode .btn-submit { display: none !important; }
         .pdf-mode .print-text { display: inline-block !important; }
         .pdf-mode .signature-box { border: 1px solid #000 !important; background: transparent !important; }
+        .pdf-mode .checklist-table { background: transparent !important; }
+        .pdf-mode .watermark-bg { opacity: 0.05 !important; }
     </style>
 </head>
 <body>
 
-<div class="menu-container">
-    <div class="menu-btn active" onclick="switchDoc('doc1')">
-        <span class="icon">🧪</span>
-        Área de Químicos
-    </div>
-    <div class="menu-btn" onclick="switchDoc('doc2')">
-        <span class="icon">🏢</span>
-        Instalações do Armazém
-    </div>
-</div>
+<div class="container" id="form-container">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEBLAEsAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAIpB0oDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpan" class="logo-img" alt="Logo">
+    
+    <h2 style="text-align: center; font-size: 14px; margin-top: 10px; text-transform: uppercase; font-weight: bold;">Lista de Verificação Periódica - Área de Químicos</h2>
+    
+    <table class="checklist-table">
+        <tr>
+            <td colspan="3" class="section-title">1. Dados de Identificação</td>
+        </tr>
+        <tr>
+            <td style="width: 30%;"><b>Data da Inspeção:</b><br>
+                <input type="text" id="data-atual" placeholder="DD/MM/AAAA">
+                <span class="print-text" id="txt-data-atual"></span>
+            </td>
+            <td style="width: 40%;"><b>Inspecionado por (Nome Completo):</b><br>
+                <input type="text" id="nome-inspetor">
+                <span class="print-text" id="txt-nome-inspetor"></span>
+            </td>
+            <td style="width: 30%;"><b>Área / Setor Indicado:</b><br>
+                <input type="text" id="setor-inspecionado" value="Área de Químicos">
+                <span class="print-text" id="txt-setor-inspecionado"></span>
+            </td>
+        </tr>
+    </table>
 
-<div id="doc1" class="doc-section active">
-    <div class="container" id="container-doc1">
-        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEBLAEsAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAIpB0oDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpan" class="logo-img">
-        <h2 style="text-align: center; font-size: 14px; margin-top: 10px; text-transform: uppercase;">Lista de Verificação Periódica - Área de Químicos</h2>
-        
-        <table class="checklist-table">
+    <table class="checklist-table">
+        <thead>
+            <tr class="header-cell">
+                <th class="col-item">Item</th>
+                <th class="col-pergunta">Requisitos de Segurança e Conformidade Técnica</th>
+                <th class="col-resposta">Avaliação de Campo / Constatações Técnicas</th>
+            </tr>
+        </thead>
+        <tbody>
             <tr>
-                <td colspan="3" class="section-title">1. Dados de Identificação</td>
+                <td colspan="3" class="section-title">A. Armazenamento e Segregação de Compatibilidade</td>
             </tr>
             <tr>
-                <td style="width: 30%;"><b>Data da Inspeção:</b><br>
-                    <input type="text" id="d1-data" placeholder="DD/MM/AAAA">
-                    <span class="print-text" id="txt-d1-data"></span>
-                </td>
-                <td style="width: 40%;"><b>Inspecionado por (Nome Completo):</b><br>
-                    <input type="text" id="d1-nome">
-                    <span class="print-text" id="txt-d1-nome"></span>
-                </td>
-                <td style="width: 30%;"><b>Área/Setor Indicado:</b><br>
-                    <input type="text" id="d1-setor" value="Área de Químicos">
-                    <span class="print-text" id="txt-d1-setor"></span>
+                <td class="col-item">A1</td>
+                <td class="col-pergunta">Os produtos químicos estão devidamente segregados de acordo com suas classes de incompatibilidade direta?</td>
+                <td class="col-resposta">
+                    <div class="radio-group">
+                        <label><input type="radio" name="r-a1" value="C"> C</label>
+                        <label><input type="radio" name="r-a1" value="NC"> NC</label>
+                        <label><input type="radio" name="r-a1" value="NA"> NA</label>
+                    </div>
+                    <span class="print-text" id="txt-r-a1"></span>
+                    <textarea id="obs-a1" placeholder="Indique desvios se NC..."></textarea>
+                    <span class="print-text hint" id="txt-obs-a1"></span>
                 </td>
             </tr>
-        </table>
-
-        <table class="checklist-table">
-            <thead>
-                <tr class="header-cell">
-                    <th class="col-item">Item</th>
-                    <th class="col-pergunta">Requisitos de Segurança e Conformidade Técnica</th>
-                    <th class="col-resposta">Avaliação de Campo / Constatações Técnicas</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td colspan="3" class="section-title">A. Armazenamento e Segregação de Compatibilidade</td></tr>
-                <tr>
-                    <td class="col-item">A1</td>
-                    <td class="col-pergunta">Os produtos químicos estão devidamente segregados de acordo com suas classes de incompatibilidade direta?</td>
-                    <td class="col-resposta">
-                        <div class="radio-group"><label><input type="radio" name="d1-a1" value="C"> C</label><label><input type="radio" name="d1-a1" value="NC"> NC</label><label><input type="radio" name="d1-a1" value="NA"> NA</label></div>
-                        <span class="print-text" id="txt-d1-a1"></span>
-                        <textarea id="d1-obs-a1" placeholder="Indique desvios..."></textarea><span class="print-text hint" id="txt-d1-obs-a1"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-item">A2</td>
-                    <td class="col-pergunta">Existem bacias de contenção limpas, desimpedidas e com volume útil compatível com os recipientes armazenados?</td>
-                    <td class="col-resposta">
-                        <div class="radio-group"><label><input type="radio" name="d1-a2" value="C"> C</label><label><input type="radio" name="d1-a2" value="NC"> NC</label><label><input type="radio" name="d1-a2" value="NA"> NA</label></div>
-                        <span class="print-text" id="txt-d1-a2"></span>
-                        <textarea id="d1-obs-a2" placeholder="Indique desvios..."></textarea><span class="print-text hint" id="txt-d1-obs-a2"></span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <table class="checklist-table">
-            <tr><td class="section-title" colspan="2">Assinatura Digital do Inspetor</td></tr>
             <tr>
-                <td style="width: 50%;">
-                    <div class="signature-box"><canvas id="sig-canvas-1"></canvas></div>
-                    <button type="button" class="btn-clear" id="clear-1">Limpar</button>
+                <td class="col-item">A2</td>
+                <td class="col-pergunta">Existem bacias de contenção limpas, desimpedidas e com volume útil compatível com os recipientes armazenados?</td>
+                <td class="col-resposta">
+                    <div class="radio-group">
+                        <label><input type="radio" name="r-a2" value="C"> C</label>
+                        <label><input type="radio" name="r-a2" value="NC"> NC</label>
+                        <label><input type="radio" name="r-a2" value="NA"> NA</label>
+                    </div>
+                    <span class="print-text" id="txt-r-a2"></span>
+                    <textarea id="obs-a2" placeholder="Indique desvios se NC..."></textarea>
+                    <span class="print-text hint" id="txt-obs-a2"></span>
                 </td>
-                <td style="vertical-align: middle; text-align: center;"><p style="font-size: 11px;">Validação formal do setor de Químicos.</p></td>
             </tr>
-        </table>
-        <button type="button" class="btn-submit" onclick="generatePDF('container-doc1', 'd1-data', 'Area_Quimicos')">Exportar PDF - Químicos</button>
-    </div>
-</div>
 
-<div id="doc2" class="doc-section">
-    <div class="container" id="container-doc2">
-        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEBLAEsAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAIpB0oDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpan" class="logo-img">
-        <h2 style="text-align: center; font-size: 14px; margin-top: 10px; text-transform: uppercase;">Lista de Verificação das Instalações do Armazém</h2>
-        <p style="font-size: 10px; text-align: center; margin-top: -5px; font-style: italic; color: #444;">De Materiais e Área Administrativa (NP-1 Rev. 02)</p>
-
-        <table class="checklist-table">
-            <thead>
-                <tr class="header-cell">
-                    <th class="col-num">Nº</th>
-                    <th class="col-item-verif">Itens de Verificação das Instalações</th>
-                    <th class="col-constatacao">Constatação / Observações Técnicas</th>
-                    <th class="col-options">SIM</th>
-                    <th class="col-options">NÃO</th>
-                    <th class="col-options">N/A</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td colspan="6" class="section-title">Prédio do Armazém e Estrutura Geral</td></tr>
-                <tr>
-                    <td class="col-num">1</td>
-                    <td class="col-item-verif">Tem placas ou avisos de risco dentro do prédio (incluindo o mapa de riscos)? Estão visíveis, atualizados e em bom estado?</td>
-                    <td><textarea id="d2-const-1" placeholder="Descreva desvios..."></textarea><span class="print-text" id="txt-d2-const-1"></span></td>
-                    <td class="col-options"><input type="radio" name="d2-arm-1" value="SIM"><span class="print-text" id="txt-arm-1-s"></span></td>
-                    <td class="col-options"><input type="radio" name="d2-arm-1" value="NÃO"><span class="print-text" id="txt-arm-1-n"></span></td>
-                    <td class="col-options"><input type="radio" name="d2-arm-1" value="NA"><span class="print-text" id="txt-arm-1-na"></span></td>
-                </tr>
-                <tr>
-                    <td class="col-num">2</td>
-                    <td class="col-item-verif">O piso interno e as vias de circulação estão desobstruídos, conservados, sinalizados e livres de riscos?</td>
-                    <td><textarea id="d2-const-2" placeholder="Descreva desvios..."></textarea><span class="print-text" id="txt-d2-const-2"></span></td>
-                    <td class="col-options"><input type="radio" name="d2-arm-2" value="SIM"><span class="print-text" id="txt-arm-2-s"></span></td>
-                    <td class="col-options"><input type="radio" name="d2-arm-2" value="NÃO"><span class="print-text" id="txt-arm-2-n"></span></td>
-                    <td class="col-options"><input type="radio" name="d2-arm-2" value="NA"><span class="print-text" id="txt-arm-2-na"></span></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <table class="checklist-table">
-            <tr><td class="section-title" colspan="2">Assinatura Digital do Representante</td></tr>
             <tr>
-                <td style="width: 50%;">
-                    <div class="signature-box"><canvas id="sig-canvas-2"></canvas></div>
-                    <button type="button" class="btn-clear" id="clear-2">Limpar</button>
-                </td>
-                <td style="vertical-align: middle; text-align: center;"><p style="font-size: 11px;">Validação formal das Instalações do Armazém.</p></td>
+                <td colspan="3" class="section-title">B. Rotulagem, FISPQ (FDS) e Identificação Ativa</td>
             </tr>
-        </table>
-        <button type="button" class="btn-submit" onclick="generatePDF('container-doc2', 'd1-data', 'Instalacoes_Armazem')">Exportar PDF - Armazém</button>
-    </div>
+            <tr>
+                <td class="col-item">B1</td>
+                <td class="col-pergunta">Todas as embalagens possuem rótulos íntegros, legíveis e com o diamante de Hommel ou indicação GHS visível?</td>
+                <td class="col-resposta">
+                    <div class="radio-group">
+                        <label><input type="radio" name="r-b1" value="C"> C</label>
+                        <label><input type="radio" name="r-b1" value="NC"> NC</label>
+                        <label><input type="radio" name="r-b1" value="NA"> NA</label>
+                    </div>
+                    <span class="print-text" id="txt-r-b1"></span>
+                    <textarea id="obs-b1" placeholder="Indique desvios se NC..."></textarea>
+                    <span class="print-text hint" id="txt-obs-b1"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3" class="section-title">C. Resposta a Emergências e Proteção Física</td>
+            </tr>
+            <tr>
+                <td class="col-item">C1</td>
+                <td class="col-pergunta">O chuveiro de emergência e o lava-olhos encontram-se desobstruídos, limpos e com teste de vazão rigorosamente em dia?</td>
+                <td class="col-resposta">
+                    <div class="radio-group">
+                        <label><input type="radio" name="r-c1" value="C"> C</label>
+                        <label><input type="radio" name="r-c1" value="NC"> NC</label>
+                        <label><input type="radio" name="r-c1" value="NA"> NA</label>
+                    </div>
+                    <span class="print-text" id="txt-r-c1"></span>
+                    <textarea id="obs-c1" placeholder="Indique desvios se NC..."></textarea>
+                    <span class="print-text hint" id="txt-obs-c1"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-item">C2</td>
+                <td class="col-pergunta">O Kit de Mitigação de Derramamento (absorventes, turfa, barreiras) está completo, acessível e lacrado de forma correta?</td>
+                <td class="col-resposta">
+                    <div class="radio-group">
+                        <label><input type="radio" name="r-c2" value="C"> C</label>
+                        <label><input type="radio" name="r-c2" value="NC"> NC</label>
+                        <label><input type="radio" name="r-c2" value="NA"> NA</label>
+                    </div>
+                    <span class="print-text" id="txt-r-c2"></span>
+                    <textarea id="obs-c2" placeholder="Indique desvios se NC..."></textarea>
+                    <span class="print-text hint" id="txt-obs-c2"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="checklist-table" style="margin-top: 15px;">
+        <tr>
+            <td class="section-title" colspan="2">E. Validação Formal e Assinatura Digital do Inspetor</td>
+        </tr>
+        <tr>
+            <td style="width: 50%; vertical-align: top;">
+                <span class="hint" style="margin-bottom: 5px;">Utilize o mouse ou tela sensível ao toque para desenhar a rubrica no campo abaixo:</span>
+                <div class="signature-box" id="signature-container">
+                    <canvas id="signature-canvas"></canvas>
+                </div>
+                <button type="button" class="btn-clear" id="clear-signature-btn">Limpar Assinatura</button>
+            </td>
+            <td style="width: 50%; vertical-align: middle; text-align: center;">
+                <p style="font-size: 11px; margin: 0 0 10px 0; padding: 0 10px;">Ao gerar o documento, as informações inseridas acima serão integradas ao arquivo final imutável de auditoria em campo.</p>
+            </td>
+        </tr>
+    </table>
+
+    <button type="button" class="btn-submit" id="generate-pdf-btn">Gerar e Exportar Documento PDF Oficial</button>
 </div>
 
 <script>
-    // Gerenciador de Alternância dos Ícones
-    function switchDoc(docId) {
-        document.querySelectorAll('.doc-section').forEach(sec => sec.classList.remove('active'));
-        document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
-        
-        document.getElementById(docId).classList.add('active');
-        event.currentTarget.classList.add('active');
-        resizeCanvases();
-    }
+    // Inicialização da API de Captura de Assinatura Digital
+    const canvas = document.getElementById('signature-canvas');
+    const signaturePad = new SignaturePad(canvas, {
+        backgroundColor: 'rgba(255, 255, 255, 0)',
+        penColor: '#000000'
+    });
 
-    // Inicialização das Assinaturas Isoladas
-    const canvas1 = document.getElementById('sig-canvas-1');
-    const pad1 = new SignaturePad(canvas1, { penColor: '#000000' });
-    const canvas2 = document.getElementById('sig-canvas-2');
-    const pad2 = new SignaturePad(canvas2, { penColor: '#000000' });
-
-    function resizeCanvases() {
+    function resizeCanvas() {
         const ratio = Math.max(window.devicePixelRatio || 1, 1);
-        if (document.getElementById('doc1').classList.contains('active')) {
-            canvas1.width = canvas1.offsetWidth * ratio; canvas1.height = canvas1.offsetHeight * ratio;
-            canvas1.getContext("2d").scale(ratio, ratio); pad1.clear();
-        } else {
-            canvas2.width = canvas2.offsetWidth * ratio; canvas2.height = canvas2.offsetHeight * ratio;
-            canvas2.getContext("2d").scale(ratio, ratio); pad2.clear();
-        }
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+        signaturePad.clear();
     }
-    window.addEventListener("resize", resizeCanvases);
-    document.addEventListener("DOMContentLoaded", resizeCanvases);
-    document.getElementById('clear-1').addEventListener('click', () => pad1.clear());
-    document.getElementById('clear-2').addEventListener('click', () => pad2.clear());
+    window.addEventListener("resize", resizeCanvas);
+    document.addEventListener("DOMContentLoaded", resizeCanvas);
 
-    // Sincronização e Mapeamento de Dados Específicos de cada tela
-    function syncDataForPDF(containerId) {
-        if(containerId === 'container-doc1') {
-            document.getElementById('txt-d1-data').textContent = document.getElementById('d1-data').value;
-            document.getElementById('txt-d1-nome').textContent = document.getElementById('d1-nome').value;
-            document.getElementById('txt-d1-setor').textContent = document.getElementById('d1-setor').value;
-            
-            ['d1-a1', 'd1-a2'].forEach(name => {
-                const checked = document.querySelector(`input[name="${name}"]:checked`);
-                document.getElementById('txt-' + name).textContent = checked ? "Escolha: " + checked.value : "N/A";
-            });
-            ['d1-obs-a1', 'd1-obs-a2'].forEach(id => {
-                document.getElementById('txt-' + id).textContent = document.getElementById(id).value || "Sem obs.";
-            });
-        } else {
-            ['d2-const-1', 'd2-const-2'].forEach(id => {
-                document.getElementById('txt-' + id).textContent = document.getElementById(id).value || "OK";
-            });
-            for(let i=1; i<=2; i++) {
-                const rSelected = document.querySelector(`input[name="d2-arm-${i}"]:checked`);
-                document.getElementById(`txt-arm-${i}-s`).textContent = (rSelected && rSelected.value === "SIM") ? "X" : "";
-                document.getElementById(`txt-arm-${i}-n`).textContent = (rSelected && rSelected.value === "NÃO") ? "X" : "";
-                document.getElementById(`txt-arm-${i}-na`).textContent = (rSelected && rSelected.value === "NA") ? "X" : "";
-            }
-        }
+    document.getElementById('clear-signature-btn').addEventListener('click', () => {
+        signaturePad.clear();
+    });
+
+    // Função de sincronização nativa preservada
+    function syncInputsToText() {
+        document.getElementById('txt-data-atual').textContent = document.getElementById('data-atual').value;
+        document.getElementById('txt-nome-inspetor').textContent = document.getElementById('nome-inspetor').value;
+        document.getElementById('txt-setor-inspecionado').textContent = document.getElementById('setor-inspecionado').value;
+
+        const ids = ['obs-a1', 'obs-a2', 'obs-b1', 'obs-c1', 'obs-c2'];
+        ids.forEach(id => {
+            const val = document.getElementById(id).value;
+            document.getElementById('txt-' + id).textContent = val ? "Desvio verificado: " + val : "Item conforme sem observações.";
+        });
+
+        const radios = ['r-a1', 'r-a2', 'r-b1', 'r-c1', 'r-c2'];
+        radios.forEach(name => {
+            const selected = document.querySelector(`input[name="${name}"]:checked`);
+            document.getElementById('txt-' + name).textContent = selected ? "Avaliação: " + selected.value : "Não respondido";
+        });
     }
 
-    // Exportação Direta de cada Bloco (Sem riscos de transbordo)
-    async function generatePDF(containerId, dataInputId, namePrefix) {
-        syncDataForPDF(containerId);
-        const container = document.getElementById(containerId);
+    // Exportação exata do PDF sem quebras artificiais
+    document.getElementById('generate-pdf-btn').addEventListener('click', async () => {
+        const container = document.getElementById('form-container');
+        syncInputsToText();
         container.classList.add('pdf-mode');
+        const larguraOriginal = container.style.width;
         container.style.width = "830px";
 
         try {
-            const canvasRender = await html2canvas(container, { scale: 2.5, useCORS: true, backgroundColor: '#ffffff' });
+            const canvasRender = await html2canvas(container, {
+                scale: 3.5,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff'
+            });
+
             const imgData = canvasRender.toDataURL('image/jpeg', 0.95);
-            
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF('p', 'mm', 'a4');
             
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = pdf.internal.pageSize.getHeight();
-            const mX = 6; const mY = 6;
             
-            pdf.addImage(imgData, 'JPEG', mX, mY, pdfWidth - (mX * 2), pdfHeight - (mY * 2));
-            
-            const dataRaw = document.getElementById('d1-data').value || 'Sem-Data';
-            pdf.save(`${namePrefix}_${dataRaw.replace(/\//g, '-')}.pdf`);
-        } catch (err) {
-            console.error(err);
+            const margemX = 5;
+            const margemY = 5;
+            const larguraUtil = pdfWidth - (margemX * 2);
+            const alturaUtil = pdfHeight - (margemY * 2);
+
+            pdf.addImage(imgData, 'JPEG', margemX, margemY, larguraUtil, alturaUtil);
+
+            const dataNome = document.getElementById('data-atual').value.replace(/\//g, '-');
+            pdf.save(`Lista_Verificacao_T036_${dataNome || 'Final'}.pdf`);
+
+        } catch (erro) {
+            console.error(erro);
         } finally {
-            container.style.width = "";
+            container.style.width = larguraOriginal;
             container.classList.remove('pdf-mode');
         }
-    }
+    });
 </script>
+
 </body>
 </html>
