@@ -12,33 +12,31 @@
         .container { max-width: 850px; margin: auto; background: white; padding: 15px; box-sizing: border-box; border-radius: 4px; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: relative; }
         
         .checklist-table { width: 100%; border-collapse: collapse; font-size: 11px; color: #000; position: relative; z-index: 1; background: rgba(255, 255, 255, 0.9); margin-bottom: 10px; }
-        .checklist-table th, .checklist-table td { border: 1px solid #000; padding: 6px 8px; vertical-align: middle; }
+        .checklist-table th, .checklist-table td { border: 1px solid #000; padding: 5px 6px; vertical-align: middle; }
         
-        .section-title { background-color: #008751; color: white; font-weight: bold; text-transform: uppercase; font-size: 11.5px; }
+        .section-title { background-color: #008751; color: white; font-weight: bold; text-transform: uppercase; font-size: 11px; padding: 4px 8px; }
         .header-cell { font-weight: bold; text-align: center; background-color: #f2f2f2; }
         
-        /* Proporções estritas da tabela para bater com o padrão */
-        .col-num { width: 5%; text-align: center; font-weight: bold; }
-        .col-item-verif { width: 50%; }
-        .col-constatacao { width: 30%; }
+        .col-num { width: 4%; text-align: center; font-weight: bold; }
+        .col-item-verif { width: 54%; }
+        .col-constatacao { width: 27%; }
         .col-options { width: 5%; text-align: center; }
 
-        .logo-img { max-width: 170px; height: auto; display: block; margin: 0 auto; }
+        .logo-img { max-width: 160px; height: auto; display: block; margin: 0 auto; }
         
-        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 5px; box-sizing: border-box; border: 1px solid #a6a6a6; border-radius: 3px; font-size: 11.5px; font-family: Arial, sans-serif; }
-        textarea { resize: none; height: 42px; }
+        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 4px; box-sizing: border-box; border: 1px solid #a6a6a6; border-radius: 3px; font-size: 11px; font-family: Arial, sans-serif; }
+        textarea { resize: none; height: 35px; }
         
-        .radio-group { display: flex; gap: 5px; justify-content: center; }
-        .hint { font-size: 9.5px; color: #444; font-style: italic; display: block; margin-top: 2px; font-weight: normal; line-height: 1.2; }
+        .radio-group { display: flex; gap: 4px; justify-content: center; }
+        .hint { font-size: 9px; color: #444; font-style: italic; display: block; margin-top: 2px; font-weight: normal; line-height: 1.2; }
         
-        .signature-box { border: 1px dashed #008751; background: #fafafa; width: 100%; height: 80px; box-sizing: border-box; touch-action: none; position: relative; }
+        .signature-box { border: 1px dashed #008751; background: #fafafa; width: 100%; height: 70px; box-sizing: border-box; touch-action: none; position: relative; }
         canvas { width: 100%; height: 100%; cursor: crosshair; }
         
-        .btn-clear { background: #ff3333; color: white; border: none; padding: 4px 10px; font-size: 10px; cursor: pointer; border-radius: 3px; font-weight: bold; margin-top: 3px; }
-        .btn-submit { background: #008751; color: white; border: none; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; border-radius: 4px; margin-top: 15px; box-shadow: 0 3px 5px rgba(0,0,0,0.15); }
+        .btn-clear { background: #ff3333; color: white; border: none; padding: 3px 8px; font-size: 9px; cursor: pointer; border-radius: 3px; font-weight: bold; margin-top: 2px; }
+        .btn-submit { background: #008751; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; cursor: pointer; width: 100%; border-radius: 4px; margin-top: 10px; box-shadow: 0 3px 5px rgba(0,0,0,0.15); }
         .btn-submit:hover { background: #006e41; }
 
-        /* Classes de Impressão */
         .print-text { display: none; font-weight: normal; white-space: pre-wrap; word-break: break-all; }
         .pdf-mode input, .pdf-mode select, .pdf-mode textarea, .pdf-mode .radio-group, .pdf-mode .btn-clear, .pdf-mode .btn-submit { display: none !important; }
         .pdf-mode .print-text { display: inline-block !important; }
@@ -51,8 +49,8 @@
 <div class="container" id="form-container">
     <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEBLAEsAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAIpB0oDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpan" class="logo-img" alt="Logo">
     
-    <h2 style="text-align: center; font-size: 14px; margin-top: 10px; text-transform: uppercase; font-weight: bold;">Lista de Verificação das Instalações do Armazém</h2>
-    <p style="text-align: center; font-size: 11px; font-weight: bold; margin-top: -5px;">DE MATERIAIS E ÁREA ADMINISTRATIVA (NP-1 Rev. 02)</p>
+    <h2 style="text-align: center; font-size: 13px; margin-top: 8px; text-transform: uppercase; font-weight: bold; margin-bottom: 2px;">Lista de Verificação das Instalações do Armazém</h2>
+    <p style="text-align: center; font-size: 10px; font-weight: bold; margin-top: 0; margin-bottom: 10px; text-transform: uppercase;">De Materiais e Área Administrativa (NP-1 Rev. 02)</p>
 
     <table class="checklist-table">
         <tr>
@@ -100,91 +98,192 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td colspan="6" class="section-title">Prédio do Armazém e Estrutura Geral</td>
-            </tr>
+            <tr><td colspan="6" class="section-title">Prédio do Armazém</td></tr>
             <tr>
                 <td class="col-num">1</td>
                 <td class="col-item-verif">Tem placas ou avisos de risco dentro do prédio (incluindo o mapa de riscos)? Estão visíveis, atualizados e em bom estado?</td>
-                <td><textarea id="const-1" placeholder="Descreva o desvio..."></textarea><span class="print-text" id="txt-const-1"></span></td>
+                <td><textarea id="const-1"></textarea><span class="print-text" id="txt-const-1"></span></td>
                 <td class="col-options"><input type="radio" name="arm-1" value="SIM"><span class="print-text" id="txt-arm-1-s"></span></td>
                 <td class="col-options"><input type="radio" name="arm-1" value="NÃO"><span class="print-text" id="txt-arm-1-n"></span></td>
                 <td class="col-options"><input type="radio" name="arm-1" value="NA"><span class="print-text" id="txt-arm-1-na"></span></td>
             </tr>
             <tr>
                 <td class="col-num">2</td>
-                <td class="col-item-verif">O piso interno e as vias de circulação estão desobstruídos, conservados, sinalizados e livres de riscos como buracos ou áreas escorregadias?</td>
-                <td><textarea id="const-2" placeholder="Descreva o desvio..."></textarea><span class="print-text" id="txt-const-2"></span></td>
+                <td class="col-item-verif">O piso interno e as vias de circulação estão desobstruídos, conservados, sinalizados e livres de riscos?</td>
+                <td><textarea id="const-2"></textarea><span class="print-text" id="txt-const-2"></span></td>
                 <td class="col-options"><input type="radio" name="arm-2" value="SIM"><span class="print-text" id="txt-arm-2-s"></span></td>
                 <td class="col-options"><input type="radio" name="arm-2" value="NÃO"><span class="print-text" id="txt-arm-2-n"></span></td>
                 <td class="col-options"><input type="radio" name="arm-2" value="NA"><span class="print-text" id="txt-arm-2-na"></span></td>
             </tr>
             <tr>
                 <td class="col-num">3</td>
-                <td class="col-item-verif">As escadas fixas estão equipadas com corrimão limpo, seguro, com piso antiderrapante e sem itens depositados nos degraus?</td>
-                <td><textarea id="const-3" placeholder="Descreva o desvio..."></textarea><span class="print-text" id="txt-const-3"></span></td>
+                <td class="col-item-verif">As escadas fixas estão equipadas com corrimão limpo, seguro, com piso antiderrapante e desimpedidas?</td>
+                <td><textarea id="const-3"></textarea><span class="print-text" id="txt-const-3"></span></td>
                 <td class="col-options"><input type="radio" name="arm-3" value="SIM"><span class="print-text" id="txt-arm-3-s"></span></td>
                 <td class="col-options"><input type="radio" name="arm-3" value="NÃO"><span class="print-text" id="txt-arm-3-n"></span></td>
                 <td class="col-options"><input type="radio" name="arm-3" value="NA"><span class="print-text" id="txt-arm-3-na"></span></td>
             </tr>
             <tr>
                 <td class="col-num">4</td>
-                <td class="col-item-verif">A iluminação interna e externa do armazém está adequada e funcionando (sem lâmpadas queimadas ou áreas escuras)?</td>
-                <td><textarea id="const-4" placeholder="Descreva o desvio..."></textarea><span class="print-text" id="txt-const-4"></span></td>
+                <td class="col-item-verif">A iluminação interna e externa do armazém está adequada e funcionando perfeitamente?</td>
+                <td><textarea id="const-4"></textarea><span class="print-text" id="txt-const-4"></span></td>
                 <td class="col-options"><input type="radio" name="arm-4" value="SIM"><span class="print-text" id="txt-arm-4-s"></span></td>
                 <td class="col-options"><input type="radio" name="arm-4" value="NÃO"><span class="print-text" id="txt-arm-4-n"></span></td>
                 <td class="col-options"><input type="radio" name="arm-4" value="NA"><span class="print-text" id="txt-arm-4-na"></span></td>
             </tr>
             <tr>
                 <td class="col-num">5</td>
-                <td class="col-item-verif">As saídas de emergência estão devidamente sinalizadas, iluminadas e totalmente desimpedidas para passagem?</td>
-                <td><textarea id="const-5" placeholder="Descreva o desvio..."></textarea><span class="print-text" id="txt-const-5"></span></td>
+                <td class="col-item-verif">As estruturas de armazenamento (porta-paletes, estantes) estão alinhadas, fixadas e sem deformações?</td>
+                <td><textarea id="const-5"></textarea><span class="print-text" id="txt-const-5"></span></td>
                 <td class="col-options"><input type="radio" name="arm-5" value="SIM"><span class="print-text" id="txt-arm-5-s"></span></td>
                 <td class="col-options"><input type="radio" name="arm-5" value="NÃO"><span class="print-text" id="txt-arm-5-n"></span></td>
                 <td class="col-options"><input type="radio" name="arm-5" value="NA"><span class="print-text" id="txt-arm-5-na"></span></td>
             </tr>
             <tr>
                 <td class="col-num">6</td>
-                <td class="col-item-verif">O almoxarifado está limpo e organizado (corredores livres, materiais nos locais corretos e ambiente sem poeira excessiva)?</td>
-                <td><textarea id="const-6" placeholder="Descreva o desvio..."></textarea><span class="print-text" id="txt-const-6"></span></td>
+                <td class="col-item-verif">As instalações elétricas (painéis, tomadas, fiação) estão protegidas, fechadas e identificadas?</td>
+                <td><textarea id="const-6"></textarea><span class="print-text" id="txt-const-6"></span></td>
                 <td class="col-options"><input type="radio" name="arm-6" value="SIM"><span class="print-text" id="txt-arm-6-s"></span></td>
                 <td class="col-options"><input type="radio" name="arm-6" value="NÃO"><span class="print-text" id="txt-arm-6-n"></span></td>
                 <td class="col-options"><input type="radio" name="arm-6" value="NA"><span class="print-text" id="txt-arm-6-na"></span></td>
             </tr>
             <tr>
                 <td class="col-num">7</td>
-                <td class="col-item-verif">O armazém apresenta infraestrutura de bacia de contenção íntegra (sem fissuras) voltada especificamente para produtos químicos?</td>
-                <td><textarea id="const-7" placeholder="Descreva o desvio..."></textarea><span class="print-text" id="txt-const-7"></span></td>
+                <td class="col-item-verif">Há vazamentos ou infiltrações visíveis no telhado, paredes ou janelas do prédio?</td>
+                <td><textarea id="const-7"></textarea><span class="print-text" id="txt-const-7"></span></td>
                 <td class="col-options"><input type="radio" name="arm-7" value="SIM"><span class="print-text" id="txt-arm-7-s"></span></td>
                 <td class="col-options"><input type="radio" name="arm-7" value="NÃO"><span class="print-text" id="txt-arm-7-n"></span></td>
                 <td class="col-options"><input type="radio" name="arm-7" value="NA"><span class="print-text" id="txt-arm-7-na"></span></td>
             </tr>
+            <tr>
+                <td class="col-num">8</td>
+                <td class="col-item-verif">O sistema de ventilação ou exaustão está operacional e garante a renovação do ar?</td>
+                <td><textarea id="const-8"></textarea><span class="print-text" id="txt-const-8"></span></td>
+                <td class="col-options"><input type="radio" name="arm-8" value="SIM"><span class="print-text" id="txt-arm-8-s"></span></td>
+                <td class="col-options"><input type="radio" name="arm-8" value="NÃO"><span class="print-text" id="txt-arm-8-n"></span></td>
+                <td class="col-options"><input type="radio" name="arm-8" value="NA"><span class="print-text" id="txt-arm-8-na"></span></td>
+            </tr>
+            <tr>
+                <td class="col-num">9</td>
+                <td class="col-item-verif">Os equipamentos de combate a incêndio (extintores, hidrantes) estão acessíveis e com carga em dia?</td>
+                <td><textarea id="const-9"></textarea><span class="print-text" id="txt-const-9"></span></td>
+                <td class="col-options"><input type="radio" name="arm-9" value="SIM"><span class="print-text" id="txt-arm-9-s"></span></td>
+                <td class="col-options"><input type="radio" name="arm-9" value="NÃO"><span class="print-text" id="txt-arm-9-n"></span></td>
+                <td class="col-options"><input type="radio" name="arm-9" value="NA"><span class="print-text" id="txt-arm-9-na"></span></td>
+            </tr>
+            <tr>
+                <td class="col-num">10</td>
+                <td class="col-item-verif">Os alarmes de incêndio e blocos de iluminação de emergência estão operacionais?</td>
+                <td><textarea id="const-10"></textarea><span class="print-text" id="txt-const-10"></span></td>
+                <td class="col-options"><input type="radio" name="arm-10" value="SIM"><span class="print-text" id="txt-arm-10-s"></span></td>
+                <td class="col-options"><input type="radio" name="arm-10" value="NÃO"><span class="print-text" id="txt-arm-10-n"></span></td>
+                <td class="col-options"><input type="radio" name="arm-10" value="NA"><span class="print-text" id="txt-arm-10-na"></span></td>
+            </tr>
+            <tr>
+                <td class="col-num">11</td>
+                <td class="col-item-verif">Existe kit de primeiros socorros disponível, sinalizado e com itens dentro da validade?</td>
+                <td><textarea id="const-11"></textarea><span class="print-text" id="txt-const-11"></span></td>
+                <td class="col-options"><input type="radio" name="arm-11" value="SIM"><span class="print-text" id="txt-arm-11-s"></span></td>
+                <td class="col-options"><input type="radio" name="arm-11" value="NÃO"><span class="print-text" id="txt-arm-11-n"></span></td>
+                <td class="col-options"><input type="radio" name="arm-11" value="NA"><span class="print-text" id="txt-arm-11-na"></span></td>
+            </tr>
+            <tr>
+                <td class="col-num">12</td>
+                <td class="col-item-verif">As bacias de retenção de óleos/químicos estão limpas, secas e com drenos fechados?</td>
+                <td><textarea id="const-12"></textarea><span class="print-text" id="txt-const-12"></span></td>
+                <td class="col-options"><input type="radio" name="arm-12" value="SIM"><span class="print-text" id="txt-arm-12-s"></span></td>
+                <td class="col-options"><input type="radio" name="arm-12" value="NÃO"><span class="print-text" id="txt-arm-12-n"></span></td>
+                <td class="col-options"><input type="radio" name="arm-12" value="NA"><span class="print-text" id="txt-arm-12-na"></span></td>
+            </tr>
+            <tr>
+                <td class="col-num">13</td>
+                <td class="col-item-verif">Os chuveiros e lava-olhos de emergência estão testados e funcionando sem obstruções?</td>
+                <td><textarea id="const-13"></textarea><span class="print-text" id="txt-const-13"></span></td>
+                <td class="col-options"><input type="radio" name="arm-13" value="SIM"><span class="print-text" id="txt-arm-13-s"></span></td>
+                <td class="col-options"><input type="radio" name="arm-13" value="NÃO"><span class="print-text" id="txt-arm-13-n"></span></td>
+                <td class="col-options"><input type="radio" name="arm-13" value="NA"><span class="print-text" id="txt-arm-13-na"></span></td>
+            </tr>
+            <tr>
+                <td class="col-num">14</td>
+                <td class="col-item-verif">Os EPIs recomendados para a área estão disponíveis, guardados corretamente e higienizados?</td>
+                <td><textarea id="const-14"></textarea><span class="print-text" id="txt-const-14"></span></td>
+                <td class="col-options"><input type="radio" name="arm-14" value="SIM"><span class="print-text" id="txt-arm-14-s"></span></td>
+                <td class="col-options"><input type="radio" name="arm-14" value="NÃO"><span class="print-text" id="txt-arm-14-n"></span></td>
+                <td class="col-options"><input type="radio" name="arm-14" value="NA"><span class="print-text" id="txt-arm-14-na"></span></td>
+            </tr>
+            <tr>
+                <td class="col-num">15</td>
+                <td class="col-item-verif">Portões de acesso e acessos automáticos possuem sensores de presença e botão de paragem de emergência operacionais?</td>
+                <td><textarea id="const-15"></textarea><span class="print-text" id="txt-const-15"></span></td>
+                <td class="col-options"><input type="radio" name="arm-15" value="SIM"><span class="print-text" id="txt-arm-15-s"></span></td>
+                <td class="col-options"><input type="radio" name="arm-15" value="NÃO"><span class="print-text" id="txt-arm-15-n"></span></td>
+                <td class="col-options"><input type="radio" name="arm-15" value="NA"><span class="print-text" id="txt-arm-15-na"></span></td>
+            </tr>
+            <tr>
+                <td class="col-num">16</td>
+                <td class="col-item-verif">No interior e exterior do armazém existem câmeras filmadoras funcionando?</td>
+                <td><textarea id="const-16"></textarea><span class="print-text" id="txt-const-16"></span></td>
+                <td class="col-options"><input type="radio" name="arm-16" value="SIM"><span class="print-text" id="txt-arm-16-s"></span></td>
+                <td class="col-options"><input type="radio" name="arm-16" value="NÃO"><span class="print-text" id="txt-arm-16-n"></span></td>
+                <td class="col-options"><input type="radio" name="arm-16" value="NA"><span class="print-text" id="txt-arm-16-na"></span></td>
+            </tr>
+            <tr>
+                <td class="col-num">17</td>
+                <td class="col-item-verif">A(s) saída(s) de emergência está(ão) devidamente sinalizada(s) e desimpedida(s)?</td>
+                <td><textarea id="const-17"></textarea><span class="print-text" id="txt-const-17"></span></td>
+                <td class="col-options"><input type="radio" name="arm-17" value="SIM"><span class="print-text" id="txt-arm-17-s"></span></td>
+                <td class="col-options"><input type="radio" name="arm-17" value="NÃO"><span class="print-text" id="txt-arm-17-n"></span></td>
+                <td class="col-options"><input type="radio" name="arm-17" value="NA"><span class="print-text" id="txt-arm-17-na"></span></td>
+            </tr>
+            <tr>
+                <td class="col-num">18</td>
+                <td class="col-item-verif">As tomadas elétricas possuem identificação de tensão?</td>
+                <td><textarea id="const-18"></textarea><span class="print-text" id="txt-const-18"></span></td>
+                <td class="col-options"><input type="radio" name="arm-18" value="SIM"><span class="print-text" id="txt-arm-18-s"></span></td>
+                <td class="col-options"><input type="radio" name="arm-18" value="NÃO"><span class="print-text" id="txt-arm-18-n"></span></td>
+                <td class="col-options"><input type="radio" name="arm-18" value="NA"><span class="print-text" id="txt-arm-18-na"></span></td>
+            </tr>
+            <tr>
+                <td class="col-num">19</td>
+                <td class="col-item-verif">O almoxarifado está organizado e limpo (sem lixo, materiais nos locais corretos, corredores livres e sem poeira)?</td>
+                <td><textarea id="const-19"></textarea><span class="print-text" id="txt-const-19"></span></td>
+                <td class="col-options"><input type="radio" name="arm-19" value="SIM"><span class="print-text" id="txt-arm-19-s"></span></td>
+                <td class="col-options"><input type="radio" name="arm-19" value="NÃO"><span class="print-text" id="txt-arm-19-n"></span></td>
+                <td class="col-options"><input type="radio" name="arm-19" value="NA"><span class="print-text" id="txt-arm-19-na"></span></td>
+            </tr>
+            <tr>
+                <td class="col-num">20</td>
+                <td class="col-item-verif">O armazém apresenta infraestrutura de contenção para produtos químicos com piso íntegro e área específica para retenção?</td>
+                <td><textarea id="const-20"></textarea><span class="print-text" id="txt-const-20"></span></td>
+                <td class="col-options"><input type="radio" name="arm-20" value="SIM"><span class="print-text" id="txt-arm-20-s"></span></td>
+                <td class="col-options"><input type="radio" name="arm-20" value="NÃO"><span class="print-text" id="txt-arm-20-n"></span></td>
+                <td class="col-options"><input type="radio" name="arm-20" value="NA"><span class="print-text" id="txt-arm-20-na"></span></td>
+            </tr>
         </tbody>
     </table>
 
-    <table class="checklist-table" style="margin-top: 15px;">
+    <table class="checklist-table" style="margin-top: 10px;">
         <tr>
-            <td class="section-title" colspan="2">E. Validação Formal e Assinaturas Digitais</td>
+            <td class="section-title" colspan="2">E. Validação Formal e Assinatura Coordenador / Representante</td>
         </tr>
         <tr>
             <td style="width: 50%; vertical-align: top;">
-                <span class="hint" style="margin-bottom: 5px;">Rubrica do Responsável:</span>
+                <span class="hint" style="margin-bottom: 3px;">Rubrica Eletrônica Digital do Responsável:</span>
                 <div class="signature-box">
                     <canvas id="signature-canvas"></canvas>
                 </div>
                 <button type="button" class="btn-clear" id="clear-signature-btn">Limpar Assinatura</button>
             </td>
             <td style="width: 50%; vertical-align: middle; text-align: center;">
-                <p style="font-size: 11px; margin: 0;">As informações coletadas acima compõem o registro formal de inspeção das Instalações do Armazém.</p>
+                <p style="font-size: 10px; margin: 0;">As informações coletadas em campo via checklist integram o relatório final unificado do Armazém.</p>
             </td>
         </tr>
     </table>
 
-    <button type="button" class="btn-submit" id="generate-pdf-btn">Gerar PDF - Instalações do Armazém</button>
+    <button type="button" class="btn-submit" id="generate-pdf-btn">Gerar PDF Oficial do Armazém</button>
 </div>
 
 <script>
-    // Inicialização da assinatura
     const canvas = document.getElementById('signature-canvas');
     const signaturePad = new SignaturePad(canvas, { penColor: '#000000' });
 
@@ -199,15 +298,14 @@
     document.addEventListener("DOMContentLoaded", resizeCanvas);
     document.getElementById('clear-signature-btn').addEventListener('click', () => signaturePad.clear());
 
-    // Sincronização estrita antes do print do Canvas
     function syncInputsToText() {
         ['gerencia', 'coord-inventario', 'rep-armazem', 'terminal-centro', 'data-inspecao', 'testemunhas'].forEach(id => {
             document.getElementById('txt-' + id).textContent = document.getElementById(id).value;
         });
 
-        for(let i = 1; i <= 7; i++) {
+        for(let i = 1; i <= 20; i++) {
             const val = document.getElementById('const-' + i).value;
-            document.getElementById('txt-const-' + i).textContent = val ? "Obs: " + val : "Conforme";
+            document.getElementById('txt-const-' + i).textContent = val ? "Obs: " + val : "Item conforme.";
 
             const radio = document.querySelector(`input[name="arm-${i}"]:checked`);
             document.getElementById(`txt-arm-${i}-s`).textContent = (radio && radio.value === "SIM") ? "X" : "";
@@ -216,17 +314,18 @@
         }
     }
 
-    // Geração do PDF
     document.getElementById('generate-pdf-btn').addEventListener('click', async () => {
         const container = document.getElementById('form-container');
         syncInputsToText();
         container.classList.add('pdf-mode');
+        const larguraOriginal = container.style.width;
         container.style.width = "830px";
 
         try {
             const canvasRender = await html2canvas(container, {
                 scale: 3.0,
                 useCORS: true,
+                logging: false,
                 backgroundColor: '#ffffff'
             });
 
@@ -236,16 +335,21 @@
             
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = pdf.internal.pageSize.getHeight();
-            const mX = 5; const mY = 5;
+            
+            const margemX = 4;
+            const margemY = 4;
+            const larguraUtil = pdfWidth - (margemX * 2);
+            const alturaUtil = pdfHeight - (margemY * 2);
 
-            pdf.addImage(imgData, 'JPEG', mX, mY, pdfWidth - (mX * 2), pdfHeight - (mY * 2));
+            pdf.addImage(imgData, 'JPEG', margemX, margemY, larguraUtil, alturaUtil);
+
             const dataNome = document.getElementById('data-inspecao').value.replace(/\//g, '-');
             pdf.save(`LV_Instalacoes_Armazem_${dataNome || 'Final'}.pdf`);
 
         } catch (erro) {
             console.error(erro);
         } finally {
-            container.style.width = "";
+            container.style.width = larguraOriginal;
             container.classList.remove('pdf-mode');
         }
     });
