@@ -61,8 +61,7 @@
         .sidebar a { display: block; padding: 15px 20px; color: #ddd; text-decoration: none; font-size: 14px; border-bottom: 1px solid #444; }
         .sidebar a:hover, .sidebar a.active { background: #008751; color: white; }
         
-        /* NOVO: Divisores de Páginas no PDF */
-        .page-break { page-break-before: always; margin-top: 20px; }
+        /* Controle de exibição das abas */
         .doc-section { display: none; }
         .doc-section.active-section { display: block; }
         
@@ -78,13 +77,15 @@
 
 <div class="sidebar" id="mySidebar">
     <h3>Documentos Disponíveis</h3>
-    <a href="#" class="active" onclick="switchDocument('quimicos', this)">Lista de Verificação - Área de Químicos</a>
-    <a href="#" onclick="switchDocument('armazem', this)">Lista de Verificação - Instalações do Armazém</a>
+    <a href="#" class="active" onclick="switchDocument('quimicos', this)">Área de Químicos (T036)</a>
+    <a href="#" onclick="switchDocument('armazem', this)">Instalações do Armazém (NP-1)</a>
 </div>
 
 <div class="container" id="form-container">
-    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEBLAEsAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAIpB0oDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD+/iiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA" class="logo-img" alt="Logo">
-    
+    <div style="text-align: center; margin-bottom: 15px; position: relative; z-index: 1;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Petrobras_Logo.svg" class="logo-img" alt="Logo Corporativo">
+    </div>
+
     <div id="section-quimicos" class="doc-section active-section">
         <h2 style="text-align: center; font-size: 15px; margin: 10px 0;">LISTA DE VERIFICAÇÃO PERIÓDICA - ÁREA DE QUÍMICOS</h2>
         
@@ -136,10 +137,121 @@
                         <span class="print-text hint" id="lbl-obs-q2"></span>
                     </td>
                 </tr>
+                <tr>
+                    <td class="col-item">1.3</td>
+                    <td class="col-pergunta">O Kit de Mitigação de Vazamento Químico (Kit de Mitigação Ambiental) está completo, acessível e com as mantas/cordões absorventes em perfeito estado?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="q3" value="SIM"> SIM</label>
+                            <label><input type="radio" name="q3" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="q3" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-q3"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-q3"></textarea>
+                        <span class="print-text hint" id="lbl-obs-q3"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">1.4</td>
+                    <td class="col-pergunta">O chuveiro de emergência e o lava-olhos estão desobstruídos, com pressão de água adequada e com os testes periódicos em dia?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="q4" value="SIM"> SIM</label>
+                            <label><input type="radio" name="q4" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="q4" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-q4"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-q4"></textarea>
+                        <span class="print-text hint" id="lbl-obs-q4"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">1.5</td>
+                    <td class="col-pergunta">As FISPQ (Fichas de Informação de Segurança de Produtos Químicos) ou SDS de todos os produtos armazenados estão disponíveis, atualizadas e em local de fácil acesso aos operadores?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="q5" value="SIM"> SIM</label>
+                            <label><input type="radio" name="q5" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="q5" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-q5"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-q5"></textarea>
+                        <span class="print-text hint" id="lbl-obs-q5"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">1.6</td>
+                    <td class="col-pergunta">Todos os recipientes, bombonas ou tambores de produtos químicos estão devidamente rotulados com o diamante de Hommel ou identificação de perigo correspondente?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="q6" value="SIM"> SIM</label>
+                            <label><input type="radio" name="q6" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="q6" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-q6"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-q6"></textarea>
+                        <span class="print-text hint" id="lbl-obs-q6"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">1.7</td>
+                    <td class="col-pergunta">Os exaustores e o sistema de ventilação natural/artificial da área de químicos estão funcionando continuamente e mantendo a troca de ar adequada?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="q7" value="SIM"> SIM</label>
+                            <label><input type="radio" name="q7" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="q7" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-q7"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-q7"></textarea>
+                        <span class="print-text hint" id="lbl-obs-q7"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">1.8</td>
+                    <td class="col-pergunta">A iluminação da área de químicos possui blindagem do tipo à prova de explosão (Ex) íntegra e sem avarias físicas nas luminárias?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="q8" value="SIM"> SIM</label>
+                            <label><input type="radio" name="q8" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="q8" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-q8"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-q8"></textarea>
+                        <span class="print-text hint" id="lbl-obs-q8"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">1.9</td>
+                    <td class="col-pergunta">Os extintores dedicados à área (PQS ou CO2) estão pressurizados, com lacre intacto, suporte adequado e com a inspeção mensal atualizada?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="q9" value="SIM"> SIM</label>
+                            <label><input type="radio" name="q9" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="q9" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-q9"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-q9"></textarea>
+                        <span class="print-text hint" id="lbl-obs-q9"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">1.10</td>
+                    <td class="col-pergunta">Os paletes utilizados são adequados (plástico ou contenção própria) e há total ausência de incompatibilidade química entre produtos adjacentes?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="q10" value="SIM"> SIM</label>
+                            <label><input type="radio" name="q10" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="q10" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-q10"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-q10"></textarea>
+                        <span class="print-text hint" id="lbl-obs-q10"></span>
+                    </td>
+                </tr>
             </tbody>
         </table>
 
-        <div class="page-break"></div>
         <table class="checklist-table">
             <tr>
                 <td class="section-title">Encerramento e Assinatura Responsável</td>
@@ -147,7 +259,7 @@
             <tr>
                 <td>
                     <p style="margin: 5px 0; font-size: 11px;">Confirmo que as avaliações acima refletem as condições reais encontradas no momento desta inspeção periódica.</p>
-                    <div class="signature-box" id="sig-pad-container-1">
+                    <div class="signature-box">
                         <canvas id="signature-canvas-1"></canvas>
                     </div>
                     <button class="btn-clear" onclick="clearSignature(1)">Limpar Assinatura</button>
@@ -161,191 +273,272 @@
         
         <table class="checklist-table">
             <tr>
-                <td colspan="3" class="section-title">1. Dados Básicos do Armazém</td>
+                <td colspan="3" class="section-title">1. Dados de Identificação e Controle (NP-1)</td>
             </tr>
             <tr>
-                <td style="width: 33%;"><strong>Terminal / Instalação:</strong><br><input type="text" id="term-nome"><span class="print-text" id="lbl-term-nome"></span></td>
-                <td style="width: 33%;"><strong>Coordenador do Inventário:</strong><br><input type="text" id="coord-nome"><span class="print-text" id="lbl-coord-nome"></span></td>
-                <td style="width: 34%;"><strong>Representante do Armazém:</strong><br><input type="text" id="rep-nome"><span class="print-text" id="lbl-rep-nome"></span></td>
+                <td style="width: 33%;"><strong>Terminal / Instalação / Centro:</strong><br><input type="text" id="arm-terminal"><span class="print-text" id="lbl-arm-terminal"></span></td>
+                <td style="width: 33%;"><strong>Coordenador do Inventário:</strong><br><input type="text" id="arm-coordenador"><span class="print-text" id="lbl-arm-coordenador"></span></td>
+                <td style="width: 34%;"><strong>Representante do Armazém:</strong><br><input type="text" id="arm-representante"><span class="print-text" id="lbl-arm-representante"></span></td>
+            </tr>
+            <tr>
+                <td style="width: 33%;"><strong>Gerência:</strong><br><input type="text" id="arm-gerencia" value="TP/DCJUR/GBS/SUPRIMENTOS/GEA"><span class="print-text" id="lbl-arm-gerencia"></span></td>
+                <td style="width: 33%;"><strong>Data da Inspeção:</strong><br><input type="text" id="arm-data" value="01/07/2026"><span class="print-text" id="lbl-arm-data"></span></td>
+                <td style="width: 34%;"><strong>Apoio / Testemunhas (Opcional):</strong><br><input type="text" id="arm-testemunhas"><span class="print-text" id="lbl-arm-testemunhas"></span></td>
             </tr>
         </table>
 
         <table class="checklist-table">
             <thead>
                 <tr>
-                    <th class="header-cell col-item">No</th>
-                    <th class="header-cell col-pergunta">Itens de Verificação</th>
-                    <th class="header-cell col-resposta">Constatação / Resposta</th>
+                    <th class="header-cell col-item">Item</th>
+                    <th class="header-cell col-pergunta">Requisito / Item de Verificação</th>
+                    <th class="header-cell col-resposta">Constatação / Status de Conformidade</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td class="col-item">1</td>
-                    <td class="col-pergunta">Tem placas ou avisos de risco dentro do prédio (incluindo o mapa de riscos)? Estão visíveis, atualizados e em bom estado?</td>
+                    <td class="col-pergunta">Tem placas ou avisos de risco dentro do prédio (incluindo o mapa de riscos)? Estão visíveis, atualizados e em bom estado (não rasgados ou apagados)?</td>
                     <td class="col-resposta">
                         <div class="radio-group">
                             <label><input type="radio" name="arm_q1" value="SIM"> SIM</label>
                             <label><input type="radio" name="arm_q1" value="NÃO"> NÃO</label>
-                            <label><input type="radio" name="arm_q1" value="NA"> NA</label>
+                            <label><input type="radio" name="arm_q1" value="N/A"> N/A</label>
                         </div>
                         <span class="print-text" id="lbl-arm_q1"></span>
-                        <textarea placeholder="Descreva a constatação..." id="obs-arm_q1"></textarea>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q1"></textarea>
                         <span class="print-text hint" id="lbl-obs-arm_q1"></span>
                     </td>
                 </tr>
                 <tr>
                     <td class="col-item">2</td>
-                    <td class="col-pergunta">O piso interno e as vias de circulação estão desobstruídos, livres de buracos e seguros para pedestres e cargas?</td>
+                    <td class="col-pergunta">O piso interno e as vias de circulação estão desobstruídos, em bom estado de conservação, com sinalização adequada, livres de riscos como buracos ou áreas escorregadias, e seguros para a movimentação de carga e pedestres?</td>
                     <td class="col-resposta">
                         <div class="radio-group">
                             <label><input type="radio" name="arm_q2" value="SIM"> SIM</label>
                             <label><input type="radio" name="arm_q2" value="NÃO"> NÃO</label>
-                            <label><input type="radio" name="arm_q2" value="NA"> NA</label>
+                            <label><input type="radio" name="arm_q2" value="N/A"> N/A</label>
                         </div>
                         <span class="print-text" id="lbl-arm_q2"></span>
-                        <textarea placeholder="Descreva a constatação..." id="obs-arm_q2"></textarea>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q2"></textarea>
                         <span class="print-text hint" id="lbl-obs-arm_q2"></span>
                     </td>
                 </tr>
-            </tbody>
-        </table>
-
-        <div class="page-break"></div>
-        <table class="checklist-table">
-            <tr>
-                <td class="section-title">Participantes da Inspeção e Assinaturas</td>
-            </tr>
-            <tr>
-                <td>
-                    <p style="margin: 5px 0; font-size: 11px;">Orientações: Marque SIM se estiver OK, NÃO se houver problema (explicar em Constatação) ou NA se não se aplicar.</p>
-                    <div class="signature-box" id="sig-pad-container-2">
-                        <canvas id="signature-canvas-2"></canvas>
-                    </div>
-                    <button class="btn-clear" onclick="clearSignature(2)">Limpar Assinatura</button>
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <button class="btn-submit" onclick="gerarPDF()">Gerar Relatório em PDF Profissional</button>
-</div>
-
-<script>
-    // Controle do Menu Lateral
-    function toggleSidebar() {
-        document.getElementById("mySidebar").classList.toggle("active");
-    }
-
-    function switchDocument(docType, element) {
-        // Remove active dos links do menu
-        const links = document.querySelectorAll('.sidebar a');
-        links.forEach(l => l.classList.remove('active'));
-        element.classList.add('active');
-
-        // Alterna a exibição das seções
-        const sections = document.querySelectorAll('.doc-section');
-        sections.forEach(s => s.classList.remove('active-section'));
-
-        if(docType === 'quimicos') {
-            document.getElementById('section-quimicos').classList.add('active-section');
-            document.title = "Lista de Verificação Periódica - Área de Químicos";
-        } else if(docType === 'armazem') {
-            document.getElementById('section-armazem').classList.add('active-section');
-            document.title = "Lista de Verificação das Instalações do Armazém";
-        }
-        
-        // Redimensiona telas de assinaturas visíveis para não bugar o canvas
-        resizeCanvas();
-        toggleSidebar(); // Fecha o menu lateral
-    }
-
-    // Inicialização das Assinaturas Digitais
-    let pad1, pad2;
-    const canvas1 = document.getElementById('signature-canvas-1');
-    const canvas2 = document.getElementById('signature-canvas-2');
-
-    function resizeCanvas() {
-        if(canvas1 && canvas1.closest('.doc-section').classList.contains('active-section')) {
-            canvas1.width = canvas1.offsetWidth;
-            canvas1.height = canvas1.offsetHeight;
-        }
-        if(canvas2 && canvas2.closest('.doc-section').classList.contains('active-section')) {
-            canvas2.width = canvas2.offsetWidth;
-            canvas2.height = canvas2.offsetHeight;
-        }
-    }
-
-    window.addEventListener("resize", resizeCanvas);
-    document.addEventListener("DOMContentLoaded", () => {
-        pad1 = new SignaturePad(canvas1, { backgroundColor: 'rgba(0,0,0,0)' });
-        pad2 = new SignaturePad(canvas2, { backgroundColor: 'rgba(0,0,0,0)' });
-        resizeCanvas();
-    });
-
-    function clearSignature(id) {
-        if(id === 1) pad1.clear();
-        if(id === 2) pad2.clear();
-    }
-
-    // Processamento Dinâmico e Geração Estrita do PDF
-    async function gerarPDF() {
-        const container = document.getElementById('form-container');
-        
-        // Passar os valores de inputs do documento visível para texto de impressão
-        const activeSection = document.querySelector('.doc-section.active-section');
-        const inputs = activeSection.querySelectorAll('input[type="text"], textarea, select');
-        
-        inputs.forEach(input => {
-            const labelId = 'lbl-' + input.id;
-            const lbl = document.getElementById(labelId);
-            if(lbl) lbl.innerText = input.value;
-        });
-
-        // Passar valores de Radio Buttons selecionados
-        const radios = activeSection.querySelectorAll('input[type="radio"]:checked');
-        radios.forEach(radio => {
-            const labelId = 'lbl-' + radio.name;
-            const lbl = document.getElementById(labelId);
-            if(lbl) lbl.innerText = "⭐ " + radio.value;
-        });
-
-        document.body.classList.add('pdf-mode');
-        const larguraOriginal = container.style.width;
-        container.style.width = "830px";
-
-        try {
-            const canvasRender = await html2canvas(container, {
-                scale: 3.5,
-                useCORS: true,
-                logging: false,
-                backgroundColor: '#ffffff'
-            });
-
-            const imgData = canvasRender.toDataURL('image/jpeg', 0.95);
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = pdf.internal.pageSize.getHeight();
-            
-            const margemX = 5;
-            const margemY = 5;
-            const larguraUtil = pdfWidth - (margemX * 2);
-            const alturaUtil = pdfHeight - (margemY * 2);
-
-            pdf.addImage(imgData, 'JPEG', margemX, margemY, larguraUtil, alturaUtil);
-
-            const sufixoNome = document.getElementById('data-atual').value.replace(/\//g, '-');
-            pdf.save(`Relatorio_Verificacao_${sufixoNome}.pdf`);
-
-        } catch (erro) {
-            console.error("Falha no processamento do documento html2canvas:", erro);
-            alert("Houve um problema ao gerar seu PDF. Por favor, tente novamente.");
-        } finally {
-            container.style.width = larguraOriginal;
-            document.body.classList.remove('pdf-mode');
-        }
-    }
-</script>
-</body>
-</html>
+                <tr>
+                    <td class="col-item">3</td>
+                    <td class="col-pergunta">As escadas fixas estão equipadas com corrimão, com corrimãos limpos e em bom estado de conservação, e livres de obstruções (como lixeiras, floreiras, etc.)?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q3" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q3" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q3" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q3"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q3"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q3"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">4</td>
+                    <td class="col-pergunta">Os degraus das escadas possuem revestimento antiderrapante, estão conservados (sem partes quebradas ou soltas) e livres de itens depositados sobre eles?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q4" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q4" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q4" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q4"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q4"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q4"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">5</td>
+                    <td class="col-pergunta">A iluminação interna e externa está adequada, funcionando perfeitamente, sem lâmpadas queimadas ou áreas escuras que dificultem a visibilidade?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q5" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q5" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q5" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q5"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q5"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q5"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">6</td>
+                    <td class="col-pergunta">As estruturas de armazenamento (porta-paletes, estantes, prateleiras) estão alinhadas, fixadas adequadamente e não apresentam sinais de deformação ou sobrecarga de peso?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q6" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q6" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q6" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q6"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q6"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q6"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">7</td>
+                    <td class="col-pergunta">As instalações elétricas (painéis, tomadas, interruptores e fiações) estão devidamente protegidas, com tampas fechadas, identificadas e sem fios expostos?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q7" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q7" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q7" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q7"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q7"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q7"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">8</td>
+                    <td class="col-pergunta">Há presença de vazamentos, goteiras ou infiltrações visíveis no telhado, nas paredes ou nas janelas do prédio?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q8" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q8" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q8" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q8"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q8"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q8"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">9</td>
+                    <td class="col-pergunta">O sistema de ventilação, exaustão ou climatização está operacional e garante a renovação adequada do ar no ambiente?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q9" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q9" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q9" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q9"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q9"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q9"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">10</td>
+                    <td class="col-pergunta">Os equipamentos de combate a incêndio (extintores, hidrantes, mangueiras) estão desobstruídos, claramente sinalizados e com as inspeções e cargas dentro do prazo de validade?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q10" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q10" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q10" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q10"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q10"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q10"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">11</td>
+                    <td class="col-pergunta">Os alarmes de incêndio, detectores de fumaça e blocos de iluminação de emergência estão operacionais e passam por testes regulares?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q11" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q11" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q11" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q11"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q11"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q11"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">12</td>
+                    <td class="col-pergunta">Existe kit de primeiros socorros disponível, devidamente sinalizado, de fácil acesso e com todos os itens dentro do período de validade?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q12" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q12" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q12" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q12"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q12"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q12"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">13</td>
+                    <td class="col-pergunta">As bacias de contenção para óleos, graxas ou produtos químicos estão limpas, secas e com os drenos/válvulas devidamente fechados?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q13" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q13" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q13" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q13"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q13"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q13"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">14</td>
+                    <td class="col-pergunta">Os chuveiros de emergência e lava-olhos instalados na área estão testados, com fluxo de água normal e totalmente desimpedidos para uso imediato?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q14" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q14" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q14" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q14"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q14"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q14"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">15</td>
+                    <td class="col-pergunta">Os EPIs recomendados para as atividades do armazém estão disponíveis, são utilizados corretamente pelos colaboradores e guardados de forma higiênica?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q15" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q15" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q15" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q15"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q15"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q15"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">16</td>
+                    <td class="col-pergunta">No caso de portões automáticos ou acessos motorizados, os equipamentos possuem sensores de presença e botões de parada de emergência operacionais e no caminho de acesso?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q16" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q16" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q16" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q16"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q16"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q16"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">17</td>
+                    <td class="col-pergunta">No interior e no exterior do prédio do armazém existem câmeras filmadoras de segurança (CFTV) funcionando perfeitamente?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q17" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q17" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q17" value="N/A"> N/A</label>
+                        </div>
+                        <span class="print-text" id="lbl-arm_q17"></span>
+                        <textarea placeholder="Observações adicionais..." id="obs-arm_q17"></textarea>
+                        <span class="print-text hint" id="lbl-obs-arm_q17"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-item">18</td>
+                    <td class="col-pergunta">A(s) saída(s) de emergência do prédio está(ão) devidamente sinalizada(s), com barras antipânico adequadas e completamente desimpedida(s)?</td>
+                    <td class="col-resposta">
+                        <div class="radio-group">
+                            <label><input type="radio" name="arm_q18" value="SIM"> SIM</label>
+                            <label><input type="radio" name="arm_q18" value="NÃO"> NÃO</label>
+                            <label><input type="radio" name="arm_q18" value="N/A"> N/A</label>
